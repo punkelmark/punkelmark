@@ -1,6 +1,5 @@
 - 👋 Hi, I’m @punkelmark
 - 👀 I’m interested in programming
-- 🌱 I’m currently learning machine learning/artifical intelligence
 - 📫 How to reach me: elmarkcorpus@ymail.com
 
 <!---
