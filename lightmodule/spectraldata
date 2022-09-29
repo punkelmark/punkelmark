@@ -1,0 +1,102 @@
+import time
+import board
+import adafruit_tca9548a
+from adafruit_as7341 import AS7341
+
+i2c = board.I2C() # uses board.SCL and board.SDA
+MUX = adafruit_tca9548a.TCA9548A(i2c)
+
+sensor1 = AS7341(MUX[0])
+#sensor2 = AS7341(MUX[1])
+#sensor3 = AS7341(MUX[2])
+
+# ----------------------------------------------------------------------------- #
+#                             Spectral data capture function calls
+# ----------------------------------------------------------------------------- #
+def bar_graph(read_value):
+    scaled = int(read_value/1000)
+    return "[%5d]" % read_value
+
+def get_f1(sensor):
+    return bar_graph(sensor.channel_415nm)
+
+def get_f2(sensor):
+    return bar_graph(sensor.channel_445nm)
+
+def get_f3(sensor):
+    return bar_graph(sensor.channel_480nm)
+
+def get_f4(sensor):
+    return bar_graph(sensor.channel_515nm)
+
+def get_f5(sensor):
+    return bar_graph(sensor.channel_555nm)
+
+def get_f6(sensor):
+    return bar_graph(sensor.channel_590nm)
+
+def get_f7(sensor):
+    return bar_graph(sensor.channel_630nm)
+
+def get_f8(sensor):
+    return bar_graph(sensor.channel_680nm)
+
+def get_clear(sensor):
+    return bar_graph(sensor.channel_nir)
+
+def disp_freq(sensor):
+    print("------------------------------------------")
+    print("F1 - 415nm/Violet %s" % get_f1(sensor))
+    print("F2 - 445nm/Indigo %s" % get_f2(sensor))
+    print("F3 - 480nm/Blue   %s" % get_f3(sensor))
+    print("F4 - 515nm/Cyan   %s" % get_f4(sensor))
+    print("F5 - 555nm/Green  %s" % get_f5(sensor))
+    print("F6 - 590nm/Yellow %s" % get_f6(sensor))
+    print("F7 - 630nm/Orange %s" % get_f7(sensor))
+    print("F8 - 680nm/Red    %s" % get_f8(sensor))
+    print("Clear             %s" % get_clear(sensor))
+    print("------------------------------------------")
+
+def get_spectraldata(sensor):
+
+    # gets spectral data from pass AS7341 sensor object and return the data in a list
+
+    SPD = [get_f1(sensor), get_f2(sensor), get_f3(sensor), get_f4(sensor), get_f5(sensor), get_f6(sensor), get_f7(sensor), get_f8(sensor), get_clear(sensor)]
+    return SPD
+
+# ----------------------------------------------------------------------------- #
+#                                   Main program
+# ----------------------------------------------------------------------------- #
+
+def capture_spectraldata():
+
+    print("|=========================================================|\n")
+    print("               SPECTRAL DATA CAPTURE PROGRAM                 ")
+    print("|=========================================================|\n\n")
+
+
+    # set brightness to 5% initial
+
+
+    samples = [] # create list for storing data samples
+    
+    for x in range(20):
+        spectraldata = get_spectraldata(sensor1)
+        print("\n\nBrightness level: ",)
+        PPFD = input("\nEnter equivalent PPFD: ")
+    
+        for i in range(9):
+            samples[x][i] = spectraldata[i]
+            samples[x][9] = PPFD
+
+        # increase brightness by 5%
+        
+
+def main():
+    
+    capture_spectraldata()
+
+    pass
+
+if __name__=="__main__":
+    main()
