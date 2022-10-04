@@ -112,7 +112,6 @@ class LEDPanel:
             try:
                 for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET)):
                     LED.LED_RED.duty_cycle = i
-                    time.sleep(0.25)
                 print("... task done.")                
             except:
                 print("Error occured.")
@@ -122,7 +121,6 @@ class LEDPanel:
                 print("Decreasing brightness...")
                 for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET), -1):
                     LED.LED_RED.duty_cycle = i
-                    time.sleep(0.25)
                 print("...task done.")
             except:
                 print("Error occured.")
@@ -134,7 +132,6 @@ class LEDPanel:
             try:
                 for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET)):
                     LED.LED_GREEN.duty_cycle = i
-                    time.sleep(0.25)
                 print("...task done.")
             except:
                 print("Error occured.")
@@ -144,7 +141,6 @@ class LEDPanel:
                 print("Decreasing brightness...")            
                 for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET), -1):
                     LED.LED_GREEN.duty_cycle = i
-                    time.sleep(0.25)
                 print("...task done.")            
             except:
                 print("Error occured.")
@@ -156,7 +152,6 @@ class LEDPanel:
             try:            
                 for i in range(int(LED.DUTYCYCLE_BLUE), int(BLUE_TARGET)):
                     LED.LED_BLUE.duty_cycle = i
-                    time.sleep(0.25)
                 print("...task done.")
             except:
                 print("Error occured.")
@@ -166,7 +161,6 @@ class LEDPanel:
                 print("Decreasing brightness...")            
                 for i in range(int(LED.DUTYCYCLE_BLUE  ), int(BLUE_TARGET), -1):
                     LED.LED_BLUE.duty_cycle = i
-                    time.sleep(0.25)
                 print("...task done.")
             except:
                 print("Error occured.")
