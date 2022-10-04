@@ -237,16 +237,17 @@ def capture_spectraldata():
 def LIGHT_MONITORING_TEST(SENSOR_TOP, SENSOR_MID):
     
     print("\n###### FOR SENSOR TOP ######")
-    SENSOR_TOP.display_freq()
+    SENSOR_TOP.disp_freq()
     print("\n###### FOR SENSOR MID ######")
-    SENSOR_MID.display_freq()
+    SENSOR_MID.disp_freq()
 
 def main():
     
     # Create light controller and monitor objects
     
     # For light monitoring, create object for AS7341
-    SENSOR_TOP = SpectralSensor(AS7341(I2C_MUX[2]))
+
+    SENSOR_TOP = SpectralSensor(AS7341(I2C_MUX[4]))
     SENSOR_MID = SpectralSensor(AS7341(I2C_MUX[3]))
 
     # For light control, create object for TCA9548A
