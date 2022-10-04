@@ -88,9 +88,9 @@ class LEDPanel:
         LED.DUTYCYCLE_BLUE = LED.MAX_RATIO_BLUE - 1
 
         # Set appropriate duty cycles for each, convert values to hex notation
-        LED.LED_RED.duty_cycle = hex(int(LED.DUTYCYCLE_RED))
-        LED.LED_GREEN.duty_cycle = hex(int(LED.DUTYCYCLE_GREEN))
-        LED.LED_BLUE.duty_cycle = hex(int(LED.DUTYCYCLE_BLUE))
+        LED.LED_RED.duty_cycle = int(LED.DUTYCYCLE_RED)
+        LED.LED_GREEN.duty_cycle = int(LED.DUTYCYCLE_GREEN)
+        LED.LED_BLUE.duty_cycle = int(LED.DUTYCYCLE_BLUE)
 
     def setIntensity(LED, VALUE):
         # Defines overall intensity of light output (for PPFD adjustment using single light control, not per channel )
@@ -315,7 +315,6 @@ def LIGHT_CONTROL_TEST(LEDPANEL):
     print("Testing for light control is done.")
 
 
-
 def main():
     
     # For light monitoring, create object for AS7341
@@ -328,7 +327,7 @@ def main():
     #  RGB_DUTYCYCLE [R, G, B] initial duty cycle with values between 0 to 65535, 65535 for full brightness,
     #  STATE - False for OFF at initial state, 
     #  PHOTOPERIOD value [day hrs, night hrs])
-    PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], [0, 0, 0], False, [12, 12])
+    PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[8], PWM_CONTROLLER.channels[9], PWM_CONTROLLER.channels[10]], [0, 0, 0], False, [12, 12])
 
     LIGHT_CONTROL_TEST(PANEL_TOP)
 
