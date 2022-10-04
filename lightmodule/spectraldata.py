@@ -108,39 +108,69 @@ class LEDPanel:
         # Update red
         if RED_TARGET - 1 > LED.DUTYCYCLE_RED:
             # Increase brightness
-            for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET)):
-                LED.LED_RED.duty_cycle = i
-                time.sleep(0.25)
+            print("Increasing brightness...")
+            try:
+                for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET)):
+                    LED.LED_RED.duty_cycle = i
+                    time.sleep(0.25)
+                print("... task done.")                
+            except:
+                print("Error occured.")
         else:
             # Decrease brightness
-            for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET), -1):
-                LED.LED_RED.duty_cycle = i
-                time.sleep(0.25)
-
+            try:
+                print("Decreasing brightness...")
+                for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET), -1):
+                    LED.LED_RED.duty_cycle = i
+                    time.sleep(0.25)
+                print("...task done.")
+            except:
+                print("Error occured.")
+                
         # Update green
         if GREEN_TARGET - 1 > LED.DUTYCYCLE_GREEN:
             # Increase brightness
-            for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET)):
-                LED.LED_GREEN.duty_cycle = i
-                time.sleep(0.25)
+            print("Increasing brightness...")
+            try:
+                for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET)):
+                    LED.LED_GREEN.duty_cycle = i
+                    time.sleep(0.25)
+                print("...task done.")
+            except:
+                print("Error occured.")
         else:
             # Decrease brightness
-            for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET), -1):
-                LED.LED_GREEN.duty_cycle = i
-                time.sleep(0.25)
-        
+            try:
+                print("Decreasing brightness...")            
+                for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET), -1):
+                    LED.LED_GREEN.duty_cycle = i
+                    time.sleep(0.25)
+                print("...task done.")            
+            except:
+                print("Error occured.")
+                           
         # Update blue
         if BLUE_TARGET - 1 > LED.DUTYCYCLE_BLUE:
             # Increase brightness
-            for i in range(int(LED.DUTYCYCLE_BLUE), int(BLUE_TARGET)):
-                LED.LED_BLUE.duty_cycle = i
-                time.sleep(0.25)
+            print("Increasing brightness...")
+            try:            
+                for i in range(int(LED.DUTYCYCLE_BLUE), int(BLUE_TARGET)):
+                    LED.LED_BLUE.duty_cycle = i
+                    time.sleep(0.25)
+                print("...task done.")
+            except:
+                print("Error occured.")
         else:
             # Decrease brightness
-            for i in range(int(LED.DUTYCYCLE_BLUE  ), int(BLUE_TARGET), -1):
-                LED.LED_BLUE.duty_cycle = i
-                time.sleep(0.25)
-
+            try:
+                print("Decreasing brightness...")            
+                for i in range(int(LED.DUTYCYCLE_BLUE  ), int(BLUE_TARGET), -1):
+                    LED.LED_BLUE.duty_cycle = i
+                    time.sleep(0.25)
+                print("...task done.")
+            except:
+                print("Error occured.")
+                
         # Save new RGB duty cycle values
         LED.DUTYCYCLE_RED = RED_TARGET - 1
         LED.DUTYCYCLE_GREEN = GREEN_TARGET - 1
@@ -271,7 +301,7 @@ def LIGHT_CONTROL_TEST(LEDPANEL):
     x = input("Enter to set intensity to 50%")
     LEDPANEL.setIntensity(0.5)
     x = input("Enter to set ratio to 25%, 50%, 75%")
-    LEDPANEL.setRatioRGB([0.25, 0.5, 0.75])
+    LEDPANEL.setRatioRGB(0.25, 0.5, 0.75)
     x = input("Enter to set intensity to full bright")
     LEDPANEL.setIntensity(1)
     x = input("Enter to loop through MOSFET switch triggering test")
