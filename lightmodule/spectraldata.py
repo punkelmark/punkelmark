@@ -69,7 +69,7 @@ class LEDPanel:
         print("    GREEN          {0}              {1}        " .format(LED.MAX_RATIO_GREEN, LED.DUTYCYCLE_GREEN))
         print("     BLUE          {0}              {1}        " .format(LED.MAX_RATIO_BLUE, LED.DUTYCYCLE_BLUE))
         print("\n          STATE   -> ", LED.STATE)
-        print("  PHOTOPERIOD (HRs) -> D: {0}   N: {1}", LED.PHOTOPERIOD[0], LED.PHOTOPERIOD[1])
+        print("  PHOTOPERIOD (HRs) -> D: {0}   N: {1}" .format(LED.PHOTOPERIOD[0], LED.PHOTOPERIOD[1]))
         print("--------------------------------------------------")
 
     def setRatioRGB(LED, newRED, newGREEN, newBLUE): 
@@ -108,36 +108,36 @@ class LEDPanel:
         # Update red
         if RED_TARGET - 1 > LED.DUTYCYCLE_RED:
             # Increase brightness
-            for i in range(int(LED.DUTYCYCLE_RED), RED_TARGET):
+            for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET)):
                 LED.LED_RED.duty_cycle = i
                 time.sleep(0.25)
         else:
             # Decrease brightness
-            for i in range(int(LED.DUTYCYCLE_RED), RED_TARGET, -1):
+            for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET, -1)):
                 LED.LED_RED.duty_cycle = i
                 time.sleep(0.25)
 
         # Update green
         if GREEN_TARGET - 1 > LED.DUTYCYCLE_GREEN:
             # Increase brightness
-            for i in range(int(LED.DUTYCYCLE_GREEN), GREEN_TARGET):
+            for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET)):
                 LED.LED_GREEN.duty_cycle = i
                 time.sleep(0.25)
         else:
             # Decrease brightness
-            for i in range(int(LED.DUTYCYCLE_GREEN), GREEN_TARGET, -1):
+            for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET, -1)):
                 LED.LED_GREEN.duty_cycle = i
                 time.sleep(0.25)
         
         # Update blue
         if BLUE_TARGET - 1 > LED.DUTYCYCLE_BLUE:
             # Increase brightness
-            for i in range(int(LED.DUTYCYCLE_BLUE), BLUE_TARGET):
+            for i in range(int(LED.DUTYCYCLE_BLUE), int(BLUE_TARGET)):
                 LED.LED_BLUE.duty_cycle = i
                 time.sleep(0.25)
         else:
             # Decrease brightness
-            for i in range(int(LED.DUTYCYCLE_BLUE  ), BLUE_TARGET, -1):
+            for i in range(int(LED.DUTYCYCLE_BLUE  ), int(BLUE_TARGET, -1)):
                 LED.LED_BLUE.duty_cycle = i
                 time.sleep(0.25)
 
@@ -306,6 +306,7 @@ def main():
     #  PHOTOPERIOD value [day hrs, night hrs])
     PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], [0, 0, 0], False, [12, 12])
 
+    LIGHT_CONTROL_TEST(PANEL_TOP)
 
     # capture_spectraldata()
   
