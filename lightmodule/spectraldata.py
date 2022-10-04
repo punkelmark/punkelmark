@@ -38,6 +38,9 @@ PWM_CONTROLLER.frequency = 1000
 class LEDPanel:
 
     def __init__(LED, RGB_RATIO, RGB_CHANNEL, RGB_DUTYCYCLE, STATE, PHOTOPERIOD):
+
+        ### Write handler here if values are out of range
+
         # Create instance of the light controllers
         LED.LED_RED = RGB_CHANNEL[0]
         LED.LED_GREEN = RGB_CHANNEL[1]
@@ -48,7 +51,7 @@ class LEDPanel:
         LED.MAX_RATIO_GREEN = RGB_RATIO[1]  
         LED.MAX_RATIO_BLUE = RGB_RATIO[2]   
 
-        # Set initial duty cycles for each, must be in integer between 0 to 66535
+        # Set initial duty cycles for each, must be in integer between 0 to 65535
         LED.DUTYCYCLE_RED = RGB_DUTYCYCLE[0]
         LED.DUTYCYCLE_GREEN = RGB_DUTYCYCLE[1]
         LED.DUTYCYCLE_BLUE = RGB_DUTYCYCLE[2]
@@ -57,10 +60,21 @@ class LEDPanel:
         LED.STATE = STATE               # ON/OFF
         LED.PHOTOPERIOD = PHOTOPERIOD   # Light cycle
 
+    def getConfig(LED):
+        print("--------------------------------------------------")
+        print("     LED        MAX RATIO        DUTY CYCLE    ")
+        print("     RED           {0}              {1}        " .format(LED.MAX_RATIO_RED, LED.DUTYCYCLE_RED))
+        print("    GREEN          {0}              {1}        " .format(LED.MAX_RATIO_GREEN, LED.DUTYCYCLE_GREEN))
+        print("     BLUE          {0}              {1}        " .format(LED.MAX_RATIO_BLUE, LED.DUTYCYCLE_BLUE))
+        print("\n          STATE   -> ", LED.STATE)
+        print("  PHOTOPERIOD (HRs) -> D: {0}   N: {1}", LED.PHOTOPERIOD[0], LED.PHOTOPERIOD[1])
+        print("--------------------------------------------------")
 
     def setRatioRGB(LED, newRED, newGREEN, newBLUE): 
-        # Defines new RGB ratios, by default, will set duty cycles to max per ratio
-        # Must input in float between 0 to 1
+        # Defines new RGB ratios, by default, will set duty cycles to maximum assigned ratio
+        # Must input in float between 0 and 1
+
+        ### Write handler here if values are out of range
 
         # Calculate new ratios and set new duty cycles
         LED.MAX_RATIO_RED = newRED * 65536
@@ -77,51 +91,58 @@ class LEDPanel:
         LED.LED_BLUE.duty_cycle = hex(int(LED.DUTYCYCLE_BLUE))
 
     def setIntensity(LED, VALUE):
-        # Calculate for new intensity values based on set RGB ratios
+        # Defines overall intensity of light output (for PPFD adjustment using single light control, not per channel )
+        # Input is in float between 0 and 1 describing duty cycle ratio (.5 for 50% duty cycle and so on...)
+
+        ### Write handler here if values are out of range
+
+        # Multiply duty cycle ratio to the set maximum ratio for each RGB channel corresponding to appropriate light levels for each color ratio mix
+        # Calculate duty cycle target values for each ratio by multiplying to 65536
         RED_TARGET = LED.MAX_RATIO_RED * VALUE * 65536
         GREEN_TARGET = LED.MAX_RATIO_GREEN * VALUE * 65536
         BLUE_TARGET = LED.MAX_RATIO_BLUE * VALUE * 65536
 
-        LED.DUTYCYCLE_RED = RED_TARGET - 1
-        LED.DUTYCYCLE_GREEN = GREEN_TARGET - 1
-        LED.DUTYCYCLE_BLUE = BLUE_TARGET - 1
-        
+        # Check if new RGB targets are less or greater than the desired value to apply appropriate dimming control
         # Update red
         if RED_TARGET - 1 > LED.DUTYCYCLE_RED:
             # Increase brightness
             for i in range(int(LED.DUTYCYCLE_RED), RED_TARGET):
                 LED.LED_RED.duty_cycle = i
-                time.sleep(0.5)
+                time.sleep(0.25)
         else:
             # Decrease brightness
             for i in range(int(LED.DUTYCYCLE_RED), RED_TARGET, -1):
                 LED.LED_RED.duty_cycle = i
-                time.sleep(0.5)
+                time.sleep(0.25)
 
         # Update green
         if GREEN_TARGET - 1 > LED.DUTYCYCLE_GREEN:
             # Increase brightness
             for i in range(int(LED.DUTYCYCLE_GREEN), GREEN_TARGET):
                 LED.LED_GREEN.duty_cycle = i
-                time.sleep(0.5)
+                time.sleep(0.25)
         else:
             # Decrease brightness
             for i in range(int(LED.DUTYCYCLE_GREEN), GREEN_TARGET, -1):
                 LED.LED_GREEN.duty_cycle = i
-                time.sleep(0.5)
+                time.sleep(0.25)
         
         # Update blue
         if BLUE_TARGET - 1 > LED.DUTYCYCLE_BLUE:
             # Increase brightness
             for i in range(int(LED.DUTYCYCLE_BLUE), BLUE_TARGET):
                 LED.LED_BLUE.duty_cycle = i
-                time.sleep(0.5)
+                time.sleep(0.25)
         else:
             # Decrease brightness
             for i in range(int(LED.DUTYCYCLE_BLUE  ), BLUE_TARGET, -1):
                 LED.LED_BLUE.duty_cycle = i
-                time.sleep(0.5)
-        
+                time.sleep(0.25)
+
+        # Save new RGB duty cycle values
+        LED.DUTYCYCLE_RED = RED_TARGET - 1
+        LED.DUTYCYCLE_GREEN = GREEN_TARGET - 1
+        LED.DUTYCYCLE_BLUE = BLUE_TARGET - 1        
                 
     def turnON(LED):
         LED.STATE = True
@@ -133,6 +154,9 @@ class LEDPanel:
         return 0
 
     def setPHOTOPERIOD(LED, VALUE):
+
+        ### Write handler here if array values are valid, must be equal to 24
+
         LED.PHOTOPERIOD = VALUE
 
     def getSTATE(LED):
@@ -234,29 +258,38 @@ def capture_spectraldata():
 
         # increase brightness by 5%
 
-def LIGHT_MONITORING_TEST(SENSOR_TOP, SENSOR_MID):
-    
-    print("\n###### FOR SENSOR TOP ######")
-    SENSOR_TOP.disp_freq()
-    print("\n###### FOR SENSOR MID ######")
-    SENSOR_MID.disp_freq()
+def LIGHT_MONITORING_TEST(sensorobject):
+
+    sensorobject.disp_freq()
+
+def LIGHT_CONTROL_TEST(LED_PANEL):
+
+    return 0
+
+
 
 def main():
     
-    # Create light controller and monitor objects
-    
     # For light monitoring, create object for AS7341
-
-    SENSOR_TOP = SpectralSensor(AS7341(I2C_MUX[4]))
-    SENSOR_MID = SpectralSensor(AS7341(I2C_MUX[3]))
+    # SENSOR_TOP = SpectralSensor(AS7341(I2C_MUX[4]))
+    # SENSOR_MID = SpectralSensor(AS7341(I2C_MUX[3]))
 
     # For light control, create object for TCA9548A
+    # (RGB_RATIO [R, G, B] where each index is a value between 0 and 1, 1 for max ratio, 
+    #  RGB_CHANNEL pass TCA objects for respective RGB channel x [redchannel[x], greenchannel[x], bluechannel[x]], 
+    #  RGB_DUTYCYCLE [R, G, B] initial duty cycle with values between 0 to 65535, 65535 for full brightness,
+    #  STATE - False for OFF at initial state, 
+    #  PHOTOPERIOD value [day hrs, night hrs])
     PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], [0, 0, 0], False, [12, 12])
 
-    LIGHT_MONITORING_TEST(SENSOR_TOP, SENSOR_MID)
+    # For light control testing
+
+    
+
+
 
     # capture_spectraldata()
-
+  
     pass
 
 if __name__=="__main__":
