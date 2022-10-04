@@ -62,6 +62,8 @@ class LEDPanel:
 
     def getConfig(LED):
         print("--------------------------------------------------")
+        print("         Current Panel light configuration        ")
+        print("--------------------------------------------------")
         print("     LED        MAX RATIO        DUTY CYCLE    ")
         print("     RED           {0}              {1}        " .format(LED.MAX_RATIO_RED, LED.DUTYCYCLE_RED))
         print("    GREEN          {0}              {1}        " .format(LED.MAX_RATIO_GREEN, LED.DUTYCYCLE_GREEN))
@@ -262,9 +264,31 @@ def LIGHT_MONITORING_TEST(sensorobject):
 
     sensorobject.disp_freq()
 
-def LIGHT_CONTROL_TEST(LED_PANEL):
+def LIGHT_CONTROL_TEST(LEDPANEL):
 
-    return 0
+    # For light control testing
+    LEDPANEL.getConfig()
+    x = input("Enter to set intensity to 5%")
+    LEDPANEL.setIntensity(0.05)
+    x = input("Enter to set ratio to 25%, 50%, 75%")
+    LEDPANEL.setRatioRGB([0.25, 0.5, 0.75])
+    x = input("Enter to set intensity to half")
+    LEDPANEL.setIntensity(0.5)
+    x = input("Enter to loop through MOSFET switch triggering test")
+    
+    GPIO.output(17, GPIO.HIGH)
+    time.sleep(1)
+    GPIO.output(27, GPIO.HIGH)
+    time.sleep(1)
+    GPIO.output(22, GPIO.HIGH)
+
+    GPIO.output(17, GPIO.LOW)
+    time.sleep(1)
+    GPIO.output(27, GPIO.LOW)
+    time.sleep(1)
+    GPIO.output(22, GPIO.LOW)
+
+    print("Testing for light control is done.")
 
 
 
@@ -281,11 +305,6 @@ def main():
     #  STATE - False for OFF at initial state, 
     #  PHOTOPERIOD value [day hrs, night hrs])
     PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], [0, 0, 0], False, [12, 12])
-
-    # For light control testing
-
-    
-
 
 
     # capture_spectraldata()
