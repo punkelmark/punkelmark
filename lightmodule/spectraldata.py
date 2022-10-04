@@ -113,7 +113,7 @@ class LEDPanel:
                 time.sleep(0.25)
         else:
             # Decrease brightness
-            for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET, -1)):
+            for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET), -1):
                 LED.LED_RED.duty_cycle = i
                 time.sleep(0.25)
 
@@ -125,7 +125,7 @@ class LEDPanel:
                 time.sleep(0.25)
         else:
             # Decrease brightness
-            for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET, -1)):
+            for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET), -1):
                 LED.LED_GREEN.duty_cycle = i
                 time.sleep(0.25)
         
@@ -137,7 +137,7 @@ class LEDPanel:
                 time.sleep(0.25)
         else:
             # Decrease brightness
-            for i in range(int(LED.DUTYCYCLE_BLUE  ), int(BLUE_TARGET, -1)):
+            for i in range(int(LED.DUTYCYCLE_BLUE  ), int(BLUE_TARGET), -1):
                 LED.LED_BLUE.duty_cycle = i
                 time.sleep(0.25)
 
@@ -268,12 +268,12 @@ def LIGHT_CONTROL_TEST(LEDPANEL):
 
     # For light control testing
     LEDPANEL.getConfig()
-    x = input("Enter to set intensity to 5%")
-    LEDPANEL.setIntensity(0.05)
+    x = input("Enter to set intensity to 50%")
+    LEDPANEL.setIntensity(0.5)
     x = input("Enter to set ratio to 25%, 50%, 75%")
     LEDPANEL.setRatioRGB([0.25, 0.5, 0.75])
-    x = input("Enter to set intensity to half")
-    LEDPANEL.setIntensity(0.5)
+    x = input("Enter to set intensity to full bright")
+    LEDPANEL.setIntensity(1)
     x = input("Enter to loop through MOSFET switch triggering test")
     
     GPIO.output(17, GPIO.HIGH)
