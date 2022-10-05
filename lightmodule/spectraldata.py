@@ -77,22 +77,22 @@ class LEDPanel:
         # Must input in float between 0 and 1
 
         # Handler here if values are out of range
-        RED_VALID = True if newRED >= 0 or newRED <= 1 else False
-        GREEN_VALID = True if newGREEN >= 0 or newGREEN <= 1 else False
-        BLUE_VALID = True if newBLUE >= 0 or newBLUE <= 1 else False
+        RED_VALID = True if newRED >= 0 and newRED <= 1 else False
+        GREEN_VALID = True if newGREEN >= 0 and newGREEN <= 1 else False
+        BLUE_VALID = True if newBLUE >= 0 and newBLUE <= 1 else False
 
         # Check as long as one of the three values are out of range, throw error
         if not RED_VALID or not GREEN_VALID or not BLUE_VALID:
             return print("Values are out of range. Please re-enter values.")
         else:
             # Calculate new ratios and set new duty cycles
-            LED.MAX_RATIO_RED = newRED * 65536
-            LED.MAX_RATIO_GREEN = newGREEN * 65536
-            LED.MAX_RATIO_BLUE = newBLUE * 65536
+            LED.MAX_RATIO_RED = newRED
+            LED.MAX_RATIO_GREEN = newGREEN
+            LED.MAX_RATIO_BLUE = newBLUE
 
-            LED.DUTYCYCLE_RED = LED.MAX_RATIO_RED - 1
-            LED.DUTYCYCLE_GREEN = LED.MAX_RATIO_GREEN - 1
-            LED.DUTYCYCLE_BLUE = LED.MAX_RATIO_BLUE - 1
+            LED.DUTYCYCLE_RED = (LED.MAX_RATIO_RED * 65536) - 1
+            LED.DUTYCYCLE_GREEN = (LED.MAX_RATIO_GREEN * 65536) - 1
+            LED.DUTYCYCLE_BLUE = (LED.MAX_RATIO_BLUE * 65536) - 1
 
             # Set appropriate duty cycles for each, convert values to hex notation
             LED.LED_RED.duty_cycle = int(LED.DUTYCYCLE_RED)
