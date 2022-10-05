@@ -76,99 +76,108 @@ class LEDPanel:
         # Defines new RGB ratios, by default, will set duty cycles to maximum assigned ratio
         # Must input in float between 0 and 1
 
-        ### Write handler here if values are out of range
+        # Handler here if values are out of range
+        RED_VALID = True if newRED >= 0 or newRED <= 1 else False
+        GREEN_VALID = True if newGREEN >= 0 or newGREEN <= 1 else False
+        BLUE_VALID = True if newBLUE >= 0 or newBLUE <= 1 else False
 
-        # Calculate new ratios and set new duty cycles
-        LED.MAX_RATIO_RED = newRED * 65536
-        LED.MAX_RATIO_GREEN = newGREEN * 65536
-        LED.MAX_RATIO_BLUE = newBLUE * 65536
+        # Check as long as one of the three values are out of range, throw error
+        if not RED_VALID or not GREEN_VALID or not BLUE_VALID:
+            return print("Values are out of range. Please re-enter values.")
+        else:
+            # Calculate new ratios and set new duty cycles
+            LED.MAX_RATIO_RED = newRED * 65536
+            LED.MAX_RATIO_GREEN = newGREEN * 65536
+            LED.MAX_RATIO_BLUE = newBLUE * 65536
 
-        LED.DUTYCYCLE_RED = LED.MAX_RATIO_RED - 1
-        LED.DUTYCYCLE_GREEN = LED.MAX_RATIO_GREEN - 1
-        LED.DUTYCYCLE_BLUE = LED.MAX_RATIO_BLUE - 1
+            LED.DUTYCYCLE_RED = LED.MAX_RATIO_RED - 1
+            LED.DUTYCYCLE_GREEN = LED.MAX_RATIO_GREEN - 1
+            LED.DUTYCYCLE_BLUE = LED.MAX_RATIO_BLUE - 1
 
-        # Set appropriate duty cycles for each, convert values to hex notation
-        LED.LED_RED.duty_cycle = int(LED.DUTYCYCLE_RED)
-        LED.LED_GREEN.duty_cycle = int(LED.DUTYCYCLE_GREEN)
-        LED.LED_BLUE.duty_cycle = int(LED.DUTYCYCLE_BLUE)
+            # Set appropriate duty cycles for each, convert values to hex notation
+            LED.LED_RED.duty_cycle = int(LED.DUTYCYCLE_RED)
+            LED.LED_GREEN.duty_cycle = int(LED.DUTYCYCLE_GREEN)
+            LED.LED_BLUE.duty_cycle = int(LED.DUTYCYCLE_BLUE)
 
     def setIntensity(LED, VALUE):
         # Defines overall intensity of light output (for PPFD adjustment using single light control, not per channel )
         # Input is in float between 0 and 1 describing duty cycle ratio (.5 for 50% duty cycle and so on...)
 
-        ### Write handler here if values are out of range
+        # Handler here if values are out of range
+        if VALUE < 0 or VALUE > 1:
+            return print("Values are out of range. Please re-enter values.")
+        else: 
+            # Multiply duty cycle ratio to the set maximum ratio for each RGB channel corresponding to appropriate light levels for each color ratio mix
+            # Calculate duty cycle target values for each ratio by multiplying to 65536
+            RED_TARGET = LED.MAX_RATIO_RED * VALUE * 65536
+            GREEN_TARGET = LED.MAX_RATIO_GREEN * VALUE * 65536
+            BLUE_TARGET = LED.MAX_RATIO_BLUE * VALUE * 65536
 
-        # Multiply duty cycle ratio to the set maximum ratio for each RGB channel corresponding to appropriate light levels for each color ratio mix
-        # Calculate duty cycle target values for each ratio by multiplying to 65536
-        RED_TARGET = LED.MAX_RATIO_RED * VALUE * 65536
-        GREEN_TARGET = LED.MAX_RATIO_GREEN * VALUE * 65536
-        BLUE_TARGET = LED.MAX_RATIO_BLUE * VALUE * 65536
-
-        # Check if new RGB targets are less or greater than the desired value to apply appropriate dimming control
-        # Update red
-        if RED_TARGET - 1 > LED.DUTYCYCLE_RED:
-            # Increase brightness
-            print("Increasing brightness...")
-            try:
-                for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET)):
-                    LED.LED_RED.duty_cycle = i
-                print("... task done.")                
-            except:
-                print("Error occured.")
-        else:
-            # Decrease brightness
-            try:
-                print("Decreasing brightness...")
-                for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET), -1):
-                    LED.LED_RED.duty_cycle = i
-                print("...task done.")
-            except:
-                print("Error occured.")
-                
-        # Update green
-        if GREEN_TARGET - 1 > LED.DUTYCYCLE_GREEN:
-            # Increase brightness
-            print("Increasing brightness...")
-            try:
-                for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET)):
-                    LED.LED_GREEN.duty_cycle = i
-                print("...task done.")
-            except:
-                print("Error occured.")
-        else:
-            # Decrease brightness
-            try:
-                print("Decreasing brightness...")            
-                for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET), -1):
-                    LED.LED_GREEN.duty_cycle = i
-                print("...task done.")            
-            except:
-                print("Error occured.")
-                           
-        # Update blue
-        if BLUE_TARGET - 1 > LED.DUTYCYCLE_BLUE:
-            # Increase brightness
-            print("Increasing brightness...")
-            try:            
-                for i in range(int(LED.DUTYCYCLE_BLUE), int(BLUE_TARGET)):
-                    LED.LED_BLUE.duty_cycle = i
-                print("...task done.")
-            except:
-                print("Error occured.")
-        else:
-            # Decrease brightness
-            try:
-                print("Decreasing brightness...")            
-                for i in range(int(LED.DUTYCYCLE_BLUE  ), int(BLUE_TARGET), -1):
-                    LED.LED_BLUE.duty_cycle = i
-                print("...task done.")
-            except:
-                print("Error occured.")
-                
-        # Save new RGB duty cycle values
-        LED.DUTYCYCLE_RED = RED_TARGET - 1
-        LED.DUTYCYCLE_GREEN = GREEN_TARGET - 1
-        LED.DUTYCYCLE_BLUE = BLUE_TARGET - 1        
+            # Check if new RGB targets are less or greater than the desired value to apply appropriate dimming control
+            # Update red
+            if RED_TARGET - 1 > LED.DUTYCYCLE_RED:
+                # Increase brightness
+                print("Increasing brightness...")
+                try:
+                    for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET)):
+                        LED.LED_RED.duty_cycle = i
+                    print("... task done.")                
+                except:
+                    print("Error occured.")
+            else:
+                # Decrease brightness
+                try:
+                    print("Decreasing brightness...")
+                    for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET), -1):
+                        LED.LED_RED.duty_cycle = i
+                    print("...task done.")
+                except:
+                    print("Error occured.")
+                    
+            # Update green
+            if GREEN_TARGET - 1 > LED.DUTYCYCLE_GREEN:
+                # Increase brightness
+                print("Increasing brightness...")
+                try:
+                    for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET)):
+                        LED.LED_GREEN.duty_cycle = i
+                    print("...task done.")
+                except:
+                    print("Error occured.")
+            else:
+                # Decrease brightness
+                try:
+                    print("Decreasing brightness...")            
+                    for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET), -1):
+                        LED.LED_GREEN.duty_cycle = i
+                    print("...task done.")            
+                except:
+                    print("Error occured.")
+                            
+            # Update blue
+            if BLUE_TARGET - 1 > LED.DUTYCYCLE_BLUE:
+                # Increase brightness
+                print("Increasing brightness...")
+                try:            
+                    for i in range(int(LED.DUTYCYCLE_BLUE), int(BLUE_TARGET)):
+                        LED.LED_BLUE.duty_cycle = i
+                    print("...task done.")
+                except:
+                    print("Error occured.")
+            else:
+                # Decrease brightness
+                try:
+                    print("Decreasing brightness...")            
+                    for i in range(int(LED.DUTYCYCLE_BLUE  ), int(BLUE_TARGET), -1):
+                        LED.LED_BLUE.duty_cycle = i
+                    print("...task done.")
+                except:
+                    print("Error occured.")
+                    
+            # Save new RGB duty cycle values
+            LED.DUTYCYCLE_RED = RED_TARGET - 1
+            LED.DUTYCYCLE_GREEN = GREEN_TARGET - 1
+            LED.DUTYCYCLE_BLUE = BLUE_TARGET - 1        
                 
     def turnON(LED):
         LED.STATE = True
@@ -290,29 +299,42 @@ def LIGHT_MONITORING_TEST(sensorobject):
 
 def LIGHT_CONTROL_TEST(LEDPANEL):
 
-    # For light control testing
+    # For light control testing    
     LEDPANEL.getConfig()
     x = input("Enter to set intensity to 50%")
     LEDPANEL.setIntensity(0.5)
     x = input("Enter to set ratio to 25%, 50%, 75%")
     LEDPANEL.setRatioRGB(0.25, 0.5, 0.75)
+
+    x = input("Enter to next test, check if LED config was updated")
+    LEDPANEL.getConfig()
     x = input("Enter to set intensity to full bright")
     LEDPANEL.setIntensity(1)
+    x = input("Enter to set new ratio again, full bright")
+    LEDPANEL.setRatioRGB(1, 1, 1)
+
+    # Try wrong values
+    x = input("Enter to try for wrong values for intensity")
+    LEDPANEL.setIntensity(1.1)
+    x = input("Enter to try for wrong values for ratio")
+    LEDPANEL.setRatioRGB(0.1, 1.1, 1)
+
     x = input("Enter to loop through MOSFET switch triggering test")
     
     GPIO.output(17, GPIO.HIGH)
-    time.sleep(1)
+    time.sleep(3)
     GPIO.output(27, GPIO.HIGH)
-    time.sleep(1)
+    time.sleep(3)
     GPIO.output(22, GPIO.HIGH)
+    time.sleep(3)
 
     GPIO.output(17, GPIO.LOW)
-    time.sleep(1)
+    time.sleep(3)
     GPIO.output(27, GPIO.LOW)
-    time.sleep(1)
+    time.sleep(3)
     GPIO.output(22, GPIO.LOW)
 
-    print("Testing for light control is done.")
+    print("Testing for light controller is done.")
 
 
 def main():
