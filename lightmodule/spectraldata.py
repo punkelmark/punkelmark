@@ -90,9 +90,21 @@ class LEDPanel:
             LED.MAX_RATIO_GREEN = newGREEN
             LED.MAX_RATIO_BLUE = newBLUE
 
-            LED.DUTYCYCLE_RED = (LED.MAX_RATIO_RED * 65536) - 1
-            LED.DUTYCYCLE_GREEN = (LED.MAX_RATIO_GREEN * 65536) - 1
-            LED.DUTYCYCLE_BLUE = (LED.MAX_RATIO_BLUE * 65536) - 1
+            if (LED.MAX_RATIO_RED == 0):
+                LED.DUTYCYCLE_RED = 0
+            else:                     
+                LED.DUTYCYCLE_RED = (LED.MAX_RATIO_RED * 65536) - 1
+
+            if (LED.MAX_RATIO_GREEN == 0):
+                LED.DUTYCYCLE_GREEN = 0
+            else:                     
+                LED.DUTYCYCLE_GREEN = (LED.MAX_RATIO_GREEN * 65536) - 1
+
+            if (LED.MAX_RATIO_BLUE == 0):
+                LED.DUTYCYCLE_BLUE = 0
+            else:                     
+                LED.DUTYCYCLE_BLUE = (LED.MAX_RATIO_BLUE * 65536) - 1
+
 
             # Set appropriate duty cycles for each, convert values to hex notation
             LED.LED_RED.duty_cycle = int(LED.DUTYCYCLE_RED)
@@ -310,15 +322,15 @@ def LIGHT_CONTROL_TEST(LEDPANEL):
     time.sleep(3)
 
     x = input("Enter to start test for each color channel")
-    x = input("Testing Red. Enter for next")
     LEDPANEL.setRatioRGB(1, 0, 0)
     LEDPANEL.getConfig()    
-    x = input("Testing Green. Enter for next")
+    x = input("Testing Red. Enter for next")
     LEDPANEL.setRatioRGB(0, 1, 0)
-    LEDPANEL.getConfig()
-    x = input("Testing Blue. Enter for next")
+    LEDPANEL.getConfig()    
+    x = input("Testing Green. Enter for next")
     LEDPANEL.setRatioRGB(0, 0, 1)    
-    LEDPANEL.getConfig()
+    LEDPANEL.getConfig()    
+    x = input("Testing Blue. Enter for next")
 
     x = input("Enter to set intensity to 50%")
     LEDPANEL.setIntensity(0.5)
