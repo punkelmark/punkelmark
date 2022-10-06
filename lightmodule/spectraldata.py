@@ -293,9 +293,12 @@ def capture_spectraldata():
 
         # increase brightness by 5%
 
-def LIGHT_MONITORING_TEST(sensorobject):
+def LIGHT_MONITORING_TEST(sensorOne, sensorTwo):
 
-    sensorobject.disp_freq()
+    print("             AS7341 One")
+    sensorOne.disp_freq()
+    print("             AS7341 Two")
+    sensorTwo.disp_freq()
 
 def LIGHT_CONTROL_TEST(LEDPANEL):
 
@@ -329,14 +332,16 @@ def LIGHT_CONTROL_TEST(LEDPANEL):
     GPIO.output(17, GPIO.LOW)
     time.sleep(3)
 
+    # Create function to set all duty cycles to 0
+
     print("Testing for light controller is done.")
 
 
 def main():
     
     # For light monitoring, create object for AS7341
-    # SENSOR_TOP = SpectralSensor(AS7341(I2C_MUX[4]))
-    # SENSOR_MID = SpectralSensor(AS7341(I2C_MUX[3]))
+    SENSOR_ONE = SpectralSensor(AS7341(I2C_MUX[4]))
+    SENSOR_TWO = SpectralSensor(AS7341(I2C_MUX[3]))
 
     # For light control, create object for TCA9548A
     # (RGB_RATIO [R, G, B] where each index is a value between 0 and 1, 1 for max ratio, 
@@ -347,6 +352,10 @@ def main():
 
     PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[8], PWM_CONTROLLER.channels[9], PWM_CONTROLLER.channels[10]], [0, 0, 0], False, [12, 12])
     # PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], [0, 0, 0], False, [12, 12])    
+
+    while(True):
+        LIGHT_MONITORING_TEST(SENSOR_ONE, SENSOR_TWO)
+        time.sleep(2)
 
     LIGHT_CONTROL_TEST(PANEL_TOP)
 
