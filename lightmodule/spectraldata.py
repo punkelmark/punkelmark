@@ -309,8 +309,17 @@ def LIGHT_CONTROL_TEST(LEDPANEL):
     GPIO.output(17, GPIO.HIGH)
     time.sleep(3)
 
-    # For light control testing    
+    x = input("Enter to start test for each color channel")
+    x = input("Testing Red. Enter for next")
+    LEDPANEL.setRatioRGB(1, 0, 0)
+    LEDPANEL.getConfig()    
+    x = input("Testing Green. Enter for next")
+    LEDPANEL.setRatioRGB(0, 1, 0)
     LEDPANEL.getConfig()
+    x = input("Testing Blue. Enter for next")
+    LEDPANEL.setRatioRGB(0, 0, 1)    
+    LEDPANEL.getConfig()
+
     x = input("Enter to set intensity to 50%")
     LEDPANEL.setIntensity(0.5)
     x = input("Enter to set ratio to 25%, 50%, 75%")
