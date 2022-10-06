@@ -299,6 +299,10 @@ def LIGHT_MONITORING_TEST(sensorobject):
 
 def LIGHT_CONTROL_TEST(LEDPANEL):
 
+    x = input("Enter to start test by turning on LED panel")
+    GPIO.output(17, GPIO.HIGH)
+    time.sleep(3)
+
     # For light control testing    
     LEDPANEL.getConfig()
     x = input("Enter to set intensity to 50%")
@@ -319,20 +323,11 @@ def LIGHT_CONTROL_TEST(LEDPANEL):
     x = input("Enter to try for wrong values for ratio")
     LEDPANEL.setRatioRGB(0.1, 1.1, 1)
 
-    x = input("Enter to loop through MOSFET switch triggering test")
+    x = input("Enter to finish test by turning off LED panel")
     
-    GPIO.output(17, GPIO.HIGH)
-    time.sleep(3)
-    GPIO.output(27, GPIO.HIGH)
-    time.sleep(3)
-    GPIO.output(22, GPIO.HIGH)
-    time.sleep(3)
 
     GPIO.output(17, GPIO.LOW)
     time.sleep(3)
-    GPIO.output(27, GPIO.LOW)
-    time.sleep(3)
-    GPIO.output(22, GPIO.LOW)
 
     print("Testing for light controller is done.")
 
@@ -349,6 +344,7 @@ def main():
     #  RGB_DUTYCYCLE [R, G, B] initial duty cycle with values between 0 to 65535, 65535 for full brightness,
     #  STATE - False for OFF at initial state, 
     #  PHOTOPERIOD value [day hrs, night hrs])
+
     PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[8], PWM_CONTROLLER.channels[9], PWM_CONTROLLER.channels[10]], [0, 0, 0], False, [12, 12])
 
     LIGHT_CONTROL_TEST(PANEL_TOP)
