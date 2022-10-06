@@ -185,6 +185,9 @@ class LEDPanel:
 
     def turnOFF(LED):
         LED.STATE = False
+        LED.LED_RED.duty_cycle = 0
+        LED.LED_GREEN.duty_cycle = 0
+        LED.LED_BLUE.duty_cycle = 0
         # execute code for switching MOSFET modules
         return 0
 
@@ -328,6 +331,7 @@ def LIGHT_CONTROL_TEST(LEDPANEL):
 
     x = input("Enter to finish test by turning off LED panel")
     
+    LEDPANEL.turnOFF()
 
     GPIO.output(17, GPIO.LOW)
     time.sleep(3)
@@ -353,9 +357,10 @@ def main():
     PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[8], PWM_CONTROLLER.channels[9], PWM_CONTROLLER.channels[10]], [0, 0, 0], False, [12, 12])
     # PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], [0, 0, 0], False, [12, 12])    
 
+    """
     while(True):
         LIGHT_MONITORING_TEST(SENSOR_ONE, SENSOR_TWO)
-        time.sleep(2)
+        time.sleep(2)"""
 
     LIGHT_CONTROL_TEST(PANEL_TOP)
 
