@@ -37,7 +37,7 @@ PWM_CONTROLLER.frequency = 1000
 
 class LEDPanel:
 
-    def __init__(LED, RGB_RATIO, RGB_CHANNEL, RGB_DUTYCYCLE, STATE, PHOTOPERIOD):
+    def __init__(LED, RGB_RATIO, RGB_CHANNEL, RGB_DUTYCYCLE, SWITCH, STATE, PHOTOPERIOD):
 
         ### Write handler here if values are out of range
 
@@ -57,6 +57,7 @@ class LEDPanel:
         LED.DUTYCYCLE_BLUE = RGB_DUTYCYCLE[2]
 
         # Set STATE and PHOTOPERIOD values
+        LED.SWITCH = SWITCH             # Assigned GPIO pin for switching
         LED.STATE = STATE               # ON/OFF
         LED.PHOTOPERIOD = PHOTOPERIOD   # Light cycle
 
@@ -192,22 +193,21 @@ class LEDPanel:
             LED.DUTYCYCLE_BLUE = BLUE_TARGET - 1        
                 
     def turnON(LED):
+        GPIO.output(LED.SWITCH, GPIO.HIGH)
         LED.STATE = True
-        # execute code for switching MOSFET modules
 
     def turnOFF(LED):
+        GPIO.output(LED.SWITCH, GPIO.LOW)
         LED.STATE = False
-        LED.LED_RED.duty_cycle = 0
-        LED.LED_GREEN.duty_cycle = 0
-        LED.LED_BLUE.duty_cycle = 0
-        # execute code for switching MOSFET modules
-        return 0
 
     def setPHOTOPERIOD(LED, VALUE):
 
-        ### Write handler here if array values are valid, must be equal to 24
-
-        LED.PHOTOPERIOD = VALUE
+        # Handler here if array values are valid, must be equal to 24
+        # Check if day and night cycles are equals 24 hours, index 0 for day, 1 for night
+        if VALUE[0] + VALUE[1] == 24:
+            LED.PHOTOPERIOD = VALUE    
+        else:
+            print("Invalid photoperiods")
 
     def getSTATE(LED):
         return LED.STATE
@@ -375,7 +375,7 @@ def main():
     #  STATE - False for OFF at initial state, 
     #  PHOTOPERIOD value [day hrs, night hrs])
 
-    PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[8], PWM_CONTROLLER.channels[9], PWM_CONTROLLER.channels[10]], [0, 0, 0], False, [12, 12])
+    PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[8], PWM_CONTROLLER.channels[9], PWM_CONTROLLER.channels[10]], [0, 0, 0], 17, False, [12, 12])
     # PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], [0, 0, 0], False, [12, 12])    
 
     """
