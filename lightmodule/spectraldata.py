@@ -7,6 +7,8 @@ import adafruit_tca9548a
 from adafruit_as7341 import AS7341
 from cmath import e
 
+# ==============================  SETUP OBJECT INITIALIZATIONS AND GPIO  ============================== #
+
 # For panel state switching -> GPIO 17, 27, 22 (Yellow, Orange, Violet)
 # Setup RPi GPIO Parameters, set initial values to LOW (OFF)
 GPIO.setmode(GPIO.BCM)
@@ -26,8 +28,7 @@ I2C_MUX = adafruit_tca9548a.TCA9548A(i2c_monitoring)
 i2c_control = busio.I2C(board.SCL, board.SDA)
 PWM_CONTROLLER = adafruit_pca9685.PCA9685(i2c_control)
 
-# Configure light controller
-# Set PWM frequency to 1kHz
+# Configure light controller, set PWM frequency to 1kHz
 PWM_CONTROLLER.frequency = 1000
 
 
@@ -37,39 +38,62 @@ PWM_CONTROLLER.frequency = 1000
 
 class LEDPanel:
 
-    def __init__(LED, RGB_RATIO, RGB_CHANNEL, RGB_DUTYCYCLE, SWITCH, STATE, PHOTOPERIOD):
+    def __init__(LED, RGB_RATIO, RGB_CHANNEL, SWITCH, STATE, PHOTOPERIOD):
 
-        ### Write handler here if values are out of range
+        ### Write handler here if values are out of range, either within this class or before object initialization in main program
 
         # Create instance of the light controllers
         LED.LED_RED = RGB_CHANNEL[0]
         LED.LED_GREEN = RGB_CHANNEL[1]
         LED.LED_BLUE = RGB_CHANNEL[2]
 
-        # Set RGB ratios in float between values 0 to 1, 1 for max brightness
+        # Set RGB ratios in float values between values 0 to 1, 1 for max brightness
         LED.MAX_RATIO_RED = RGB_RATIO[0]    
         LED.MAX_RATIO_GREEN = RGB_RATIO[1]  
         LED.MAX_RATIO_BLUE = RGB_RATIO[2]   
 
-        # Set initial duty cycles for each, must be in integer between 0 to 65535
-        LED.DUTYCYCLE_RED = RGB_DUTYCYCLE[0]
-        LED.DUTYCYCLE_GREEN = RGB_DUTYCYCLE[1]
-        LED.DUTYCYCLE_BLUE = RGB_DUTYCYCLE[2]
+        # Set initial duty cycle to 0 (OFF), duty cycle values must be in integer between 0 to 65535
+        LED.DUTYCYCLE_RED = 0
+        LED.DUTYCYCLE_GREEN = 0
+        LED.DUTYCYCLE_BLUE = 0
 
         # Set STATE and PHOTOPERIOD values
         LED.SWITCH = SWITCH             # Assigned GPIO pin for switching
         LED.STATE = STATE               # ON/OFF
-        LED.PHOTOPERIOD = PHOTOPERIOD   # Light cycle
+        LED.PHOTOPERIOD = PHOTOPERIOD   # Day/Night cycle
+
+    def turnON(LED):
+        # Turn on panel
+        GPIO.output(LED.SWITCH, GPIO.HIGH)
+        LED.STATE = True
+
+    def turnOFF(LED):
+        # Turn off panel  
+        GPIO.output(LED.SWITCH, GPIO.LOW)
+        LED.STATE = False
+
+    def getSTATE(LED):
+        # Returns TRUE if LEDs are ON, otherwise FALSE
+        return LED.STATE
+
+    def setPHOTOPERIOD(LED, VALUE):
+        # Handler here if array values are valid, must be equal to 24
+        # Check if day and night cycles are equals 24 hours, index 0 for day, 1 for night
+        LED.PHOTOPERIOD = VALUE if VALUE[0] + VALUE[1] == 24 else print("Invalid photoperiod")
+
+    def getPHOTOPERIOD(LED):
+        return LED.PHOTOPERIOD
 
     def getConfig(LED):
         print("--------------------------------------------------")
         print("         Current Panel light configuration        ")
         print("--------------------------------------------------")
-        print("     LED        MAX RATIO        DUTY CYCLE    ")
-        print("     RED          {0}             {1}        " .format(LED.MAX_RATIO_RED, LED.DUTYCYCLE_RED))
-        print("    GREEN         {0}             {1}        " .format(LED.MAX_RATIO_GREEN, LED.DUTYCYCLE_GREEN))
-        print("     BLUE         {0}             {1}        " .format(LED.MAX_RATIO_BLUE, LED.DUTYCYCLE_BLUE))
+        print("     LED        MAX RATIO        CURRENT DUTY CYCLE    ")
+        print("     RED          {0}                {1}        " .format(LED.MAX_RATIO_RED, LED.DUTYCYCLE_RED))
+        print("    GREEN         {0}                {1}        " .format(LED.MAX_RATIO_GREEN, LED.DUTYCYCLE_GREEN))
+        print("     BLUE         {0}                {1}        " .format(LED.MAX_RATIO_BLUE, LED.DUTYCYCLE_BLUE))
         print("\n          STATE   -> ", LED.STATE)
+        print("\n          SWITCH  -> ", LED.SWITCH)
         print("  PHOTOPERIOD (HRs) -> D: {0}   N: {1}" .format(LED.PHOTOPERIOD[0], LED.PHOTOPERIOD[1]))
         print("--------------------------------------------------")
 
@@ -86,26 +110,14 @@ class LEDPanel:
         if not RED_VALID or not GREEN_VALID or not BLUE_VALID:
             return print("Values are out of range. Please re-enter values.")
         else:
-            # Calculate new ratios and set new duty cycles
+            # Calculate new ratios and update to new duty cycle values
             LED.MAX_RATIO_RED = newRED
             LED.MAX_RATIO_GREEN = newGREEN
             LED.MAX_RATIO_BLUE = newBLUE
 
-            if (LED.MAX_RATIO_RED == 0):
-                LED.DUTYCYCLE_RED = 0
-            else:                     
-                LED.DUTYCYCLE_RED = (LED.MAX_RATIO_RED * 65536) - 1
-
-            if (LED.MAX_RATIO_GREEN == 0):
-                LED.DUTYCYCLE_GREEN = 0
-            else:                     
-                LED.DUTYCYCLE_GREEN = (LED.MAX_RATIO_GREEN * 65536) - 1
-
-            if (LED.MAX_RATIO_BLUE == 0):
-                LED.DUTYCYCLE_BLUE = 0
-            else:                     
-                LED.DUTYCYCLE_BLUE = (LED.MAX_RATIO_BLUE * 65536) - 1
-
+            LED.DUTYCYCLE_RED = 0 if LED.MAX_RATIO_RED == 0 else (LED.MAX_RATIO_RED * 65536) - 1
+            LED.DUTYCYCLE_GREEN = 0 if LED.MAX_RATIO_GREEN == 0 else (LED.MAX_RATIO_GREEN * 65536) - 1
+            LED.DUTYCYCLE_BLUE = 0 if LED.MAX_RATIO_BLUE == 0 else (LED.MAX_RATIO_BLUE * 65536) - 1            
 
             # Set appropriate duty cycles for each, convert values to hex notation
             LED.LED_RED.duty_cycle = int(LED.DUTYCYCLE_RED)
@@ -113,10 +125,10 @@ class LEDPanel:
             LED.LED_BLUE.duty_cycle = int(LED.DUTYCYCLE_BLUE)
 
     def setIntensity(LED, VALUE):
-        # Defines overall intensity of light output (for PPFD adjustment using single light control, not per channel )
+        # Defines OVERALL intensity of light output (for PPFD adjustment with single light control, not per channel )
         # Input is in float between 0 and 1 describing duty cycle ratio (.5 for 50% duty cycle and so on...)
 
-        # Handler here if values are out of range
+        # Check if values are out of range
         if VALUE < 0 or VALUE > 1:
             return print("Values are out of range. Please re-enter values.")
         else: 
@@ -130,8 +142,8 @@ class LEDPanel:
             # Update red
             if RED_TARGET - 1 > LED.DUTYCYCLE_RED:
                 # Increase brightness
-                print("Increasing brightness...")
                 try:
+                    print("Increasing brightness...")
                     for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET)):
                         LED.LED_RED.duty_cycle = i
                     print("... task done.")                
@@ -150,8 +162,8 @@ class LEDPanel:
             # Update green
             if GREEN_TARGET - 1 > LED.DUTYCYCLE_GREEN:
                 # Increase brightness
-                print("Increasing brightness...")
                 try:
+                    print("Increasing brightness...")
                     for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET)):
                         LED.LED_GREEN.duty_cycle = i
                     print("...task done.")
@@ -170,8 +182,8 @@ class LEDPanel:
             # Update blue
             if BLUE_TARGET - 1 > LED.DUTYCYCLE_BLUE:
                 # Increase brightness
-                print("Increasing brightness...")
                 try:            
+                    print("Increasing brightness...")
                     for i in range(int(LED.DUTYCYCLE_BLUE), int(BLUE_TARGET)):
                         LED.LED_BLUE.duty_cycle = i
                     print("...task done.")
@@ -191,29 +203,7 @@ class LEDPanel:
             LED.DUTYCYCLE_RED = RED_TARGET - 1
             LED.DUTYCYCLE_GREEN = GREEN_TARGET - 1
             LED.DUTYCYCLE_BLUE = BLUE_TARGET - 1        
-                
-    def turnON(LED):
-        GPIO.output(LED.SWITCH, GPIO.HIGH)
-        LED.STATE = True
 
-    def turnOFF(LED):
-        GPIO.output(LED.SWITCH, GPIO.LOW)
-        LED.STATE = False
-
-    def setPHOTOPERIOD(LED, VALUE):
-
-        # Handler here if array values are valid, must be equal to 24
-        # Check if day and night cycles are equals 24 hours, index 0 for day, 1 for night
-        if VALUE[0] + VALUE[1] == 24:
-            LED.PHOTOPERIOD = VALUE    
-        else:
-            print("Invalid photoperiods")
-
-    def getSTATE(LED):
-        return LED.STATE
-
-    def getPHOTOPERIOD(LED):
-        return LED.PHOTOPERIOD
 
 # ----------------------------------------------------------------------------- #
 #                       Spectral data capture class                             #
@@ -269,8 +259,7 @@ class SpectralSensor:
         print("------------------------------------------")
 
     def get_spectraldata(self):
-
-        # gets spectral data from AS7341 sensor object and return the data in a list
+        # Gets spectral data from AS7341 sensor object and return the data in a list
         SPD = [self.SENSOR.channel_415nm, 
                self.SENSOR.channel_445nm,
                self.SENSOR.channel_480nm,
@@ -322,15 +311,18 @@ def LIGHT_CONTROL_TEST(LEDPANEL):
     time.sleep(3)
 
     x = input("Enter to start test for each color channel")
+    print("Testing red...")
     LEDPANEL.setRatioRGB(1, 0, 0)
     LEDPANEL.getConfig()    
-    x = input("Testing Red. Enter for next")
+    x = input("Testing Red done. Enter for next")
+    print("Testing green...")
     LEDPANEL.setRatioRGB(0, 1, 0)
     LEDPANEL.getConfig()    
-    x = input("Testing Green. Enter for next")
+    x = input("Testing Green done. Enter for next")
+    print("Testing blue...")
     LEDPANEL.setRatioRGB(0, 0, 1)    
     LEDPANEL.getConfig()    
-    x = input("Testing Blue. Enter for next")
+    x = input("Testing Blue done. Enter for next")
 
     x = input("Enter to set intensity to 50%")
     LEDPANEL.setIntensity(0.5)
