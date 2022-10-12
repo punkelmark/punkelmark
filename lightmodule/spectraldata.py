@@ -62,6 +62,8 @@ class LEDPanel:
         LED.STATE = STATE               # ON/OFF
         LED.PHOTOPERIOD = PHOTOPERIOD   # Day/Night cycle
 
+        ## Write test code to configure initializations on hardware
+
     def turnON(LED):
         # Turn on panel
         GPIO.output(LED.SWITCH, GPIO.HIGH)
@@ -147,8 +149,8 @@ class LEDPanel:
                     for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET)):
                         LED.LED_RED.duty_cycle = i
                     print("... task done.")                
-                except:
-                    print("Error occured.")
+                except Exception as e:
+                    print("Error occured: " + str(e))
             else:
                 # Decrease brightness
                 try:
@@ -156,8 +158,8 @@ class LEDPanel:
                     for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET), -1):
                         LED.LED_RED.duty_cycle = i
                     print("...task done.")
-                except:
-                    print("Error occured.")
+                except Exception as e:
+                    print("Error occured: " + str(e))
                     
             # Update green
             if GREEN_TARGET - 1 > LED.DUTYCYCLE_GREEN:
@@ -167,8 +169,8 @@ class LEDPanel:
                     for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET)):
                         LED.LED_GREEN.duty_cycle = i
                     print("...task done.")
-                except:
-                    print("Error occured.")
+                except Exception as e:
+                    print("Error occured: " + str(e))
             else:
                 # Decrease brightness
                 try:
@@ -176,8 +178,8 @@ class LEDPanel:
                     for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET), -1):
                         LED.LED_GREEN.duty_cycle = i
                     print("...task done.")            
-                except:
-                    print("Error occured.")
+                except Exception as e:
+                    print("Error occured: " + str(e))
                             
             # Update blue
             if BLUE_TARGET - 1 > LED.DUTYCYCLE_BLUE:
@@ -187,8 +189,8 @@ class LEDPanel:
                     for i in range(int(LED.DUTYCYCLE_BLUE), int(BLUE_TARGET)):
                         LED.LED_BLUE.duty_cycle = i
                     print("...task done.")
-                except:
-                    print("Error occured.")
+                except Exception as e:
+                    print("Error occured: " + str(e))
             else:
                 # Decrease brightness
                 try:
@@ -196,8 +198,8 @@ class LEDPanel:
                     for i in range(int(LED.DUTYCYCLE_BLUE  ), int(BLUE_TARGET), -1):
                         LED.LED_BLUE.duty_cycle = i
                     print("...task done.")
-                except:
-                    print("Error occured.")
+                except Exception as e:
+                    print("Error occured: " + str(e))
                     
             # Save new RGB duty cycle values
             LED.DUTYCYCLE_RED = RED_TARGET - 1
@@ -276,27 +278,6 @@ class SpectralSensor:
 #                                Main program
 # ----------------------------------------------------------------------------- #
 
-def capture_spectraldata():
-
-    print("|=========================================================|\n")
-    print("               SPECTRAL DATA CAPTURE PROGRAM                 ")
-    print("|=========================================================|\n\n")
-    print("                 Press enter to continue                     \n\n\n\n")
-
-    # set brightness to 5% initial
-    
-    samples = [] # create list for storing data samples
-    
-    for x in range(20):
-        spectraldata = SENSOR_TOP.get_spectraldata
-        PPFD = input("\nEnter equivalent PPFD: ")
-    
-        for i in range(9):
-            samples[x][i] = spectraldata[i]
-            samples[x][9] = PPFD
-
-        # increase brightness by 5%
-
 def LIGHT_MONITORING_TEST(sensorOne, sensorTwo):
 
     print("             AS7341 One")
@@ -353,6 +334,46 @@ def LIGHT_CONTROL_TEST(LEDPANEL):
 
     print("Testing for light controller is done.")
 
+def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
+
+    print("|=========================================================|\n")
+    print("               SPECTRAL DATA CAPTURE PROGRAM                 ")
+    print("|=========================================================|\n\n")
+    print("                 Press enter to continue                     \n\n\n\n")
+
+    intensity_counter = 0.05
+
+    try:
+        # Set brightness to 5% initial
+        PANEL_TOP.setIntensity(intensity_counter)
+
+        # Create list for storing data samples
+        samples = []
+        
+        # Iterate data capture at 20 points
+        for x in range(20):
+            try:
+                spectraldata = SENSOR_ONE.get_spectraldata()
+                print("Spectral data captured at light intensity {0} ...".format(intensity_counter))
+            except:
+                print("Spectral data capture failed")
+            PPFD = input("Enter equivalent PPFD: ")
+        
+            for i in range(9):
+                samples[x][i] = spectraldata[i]
+                samples[x][9] = PPFD
+
+            # Increase brightness by 5%
+            print("\n\nIncreasing brightness by  5%...")
+            intensity_counter += 0.05
+            PANEL_TOP.setIntensity(intensity_counter)
+
+        print("Spectral data capture program has finished...")
+        print("Displaying data values")
+
+        ## Write program for writing data values in excel
+    except Exception as e:
+        print("Spectral data capture program encountered an error: " + str(e))
 
 def main():
     
@@ -363,21 +384,19 @@ def main():
     # For light control, create object for TCA9548A
     # (RGB_RATIO [R, G, B] where each index is a value between 0 and 1, 1 for max ratio, 
     #  RGB_CHANNEL pass TCA objects for respective RGB channel x [redchannel[x], greenchannel[x], bluechannel[x]], 
-    #  RGB_DUTYCYCLE [R, G, B] initial duty cycle with values between 0 to 65535, 65535 for full brightness,
     #  STATE - False for OFF at initial state, 
     #  PHOTOPERIOD value [day hrs, night hrs])
 
-    PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[8], PWM_CONTROLLER.channels[9], PWM_CONTROLLER.channels[10]], [0, 0, 0], 17, False, [12, 12])
-    # PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], [0, 0, 0], False, [12, 12])    
+    PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[8], PWM_CONTROLLER.channels[9], PWM_CONTROLLER.channels[10]], 17, False, [12, 12])
 
-    """
-    while(True):
-        LIGHT_MONITORING_TEST(SENSOR_ONE, SENSOR_TWO)
-        time.sleep(2)"""
+    # Uncomment to conduct light controlling tests
+    # LIGHT_CONTROL_TEST(PANEL_TOP)
 
-    LIGHT_CONTROL_TEST(PANEL_TOP)
+    # Uncomment to conduct light monitoring tests
+    # LIGHT_MONITORING_TEST()
 
-    # capture_spectraldata()
+    # Uncomment to conduct spectral data acquisition tests
+    # SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE)
   
     pass
 
