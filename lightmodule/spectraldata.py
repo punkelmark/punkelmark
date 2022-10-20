@@ -139,15 +139,16 @@ class LEDPanel:
         if VALUE < 0 or VALUE > 1:
             return print("Values are out of range. Please re-enter values.")
         else: 
+
             # Multiply duty cycle ratio to the set maximum ratio for each RGB channel corresponding to appropriate light levels for each color ratio mix
             # Calculate duty cycle target values for each ratio by multiplying to 65536
-            RED_TARGET = LED.MAX_RATIO_RED * VALUE * 65536
-            GREEN_TARGET = LED.MAX_RATIO_GREEN * VALUE * 65536
-            BLUE_TARGET = LED.MAX_RATIO_BLUE * VALUE * 65536
+            RED_TARGET = 0 if VALUE == 0 else (LED.MAX_RATIO_RED * VALUE * 65536) - 1
+            GREEN_TARGET = 0 if VALUE == 0 else (LED.MAX_RATIO_GREEN * VALUE * 65536) - 1
+            BLUE_TARGET = 0 if VALUE == 0 else (LED.MAX_RATIO_BLUE * VALUE * 65536) - 1
 
             # Check if new RGB targets are less or greater than the desired value to apply appropriate dimming control
             # Update red
-            if RED_TARGET - 1 > LED.DUTYCYCLE_RED:
+            if RED_TARGET > LED.DUTYCYCLE_RED:
                 # Increase brightness
                 try:
                     print("Increasing brightness...")
@@ -167,7 +168,7 @@ class LEDPanel:
                     print("Error occured: " + str(e))
                     
             # Update green
-            if GREEN_TARGET - 1 > LED.DUTYCYCLE_GREEN:
+            if GREEN_TARGET > LED.DUTYCYCLE_GREEN:
                 # Increase brightness
                 try:
                     print("Increasing brightness...")
@@ -187,7 +188,7 @@ class LEDPanel:
                     print("Error occured: " + str(e))
                             
             # Update blue
-            if BLUE_TARGET - 1 > LED.DUTYCYCLE_BLUE:
+            if BLUE_TARGET > LED.DUTYCYCLE_BLUE:
                 # Increase brightness
                 try:            
                     print("Increasing brightness...")
