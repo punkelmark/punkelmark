@@ -394,10 +394,10 @@ def main():
     PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[8], PWM_CONTROLLER.channels[9], PWM_CONTROLLER.channels[10]], 17, False, [12, 12])
 
     # Uncomment to conduct light controlling tests
-    # LIGHT_CONTROL_TEST(PANEL_TOP)
+    LIGHT_CONTROL_TEST(PANEL_TOP)
 
     # Uncomment to conduct light monitoring tests
-    # LIGHT_MONITORING_TEST()
+    LIGHT_MONITORING_TEST(SENSOR_ONE, SENSOR_TWO)
 
     # Uncomment to conduct spectral data acquisition tests
     # SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE)
