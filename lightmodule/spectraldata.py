@@ -339,6 +339,21 @@ def LIGHT_CONTROL_TEST(LEDPANEL):
 
     print("Testing for light controller is done.")
 
+def LIGHT_CONTROL_TEST_2(LEDPANEL):
+    LEDPANEL.getConfig()
+
+    intensity_counter = 0
+
+    try:
+        for x in range(20):
+            print("Updating intensity...")
+            LEDPANEL.setIntensity(intensity_counter)
+            print("Intensity set to ", intensity_counter)
+            x = input("Enter to increment intensity by 5%...")
+            intensity_counter += 0.05
+    except Exception as e:
+        print("Encountered an error: " + str(e))
+
 def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
 
     print("|=========================================================|\n")
@@ -395,7 +410,7 @@ def main():
     PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[8], PWM_CONTROLLER.channels[9], PWM_CONTROLLER.channels[10]], 17, False, [12, 12])
 
     # Uncomment to conduct light controlling tests
-    LIGHT_CONTROL_TEST(PANEL_TOP)
+    LIGHT_CONTROL_TEST_2(PANEL_TOP)
 
     # Uncomment to conduct light monitoring tests
     LIGHT_MONITORING_TEST(SENSOR_ONE, SENSOR_TWO)
