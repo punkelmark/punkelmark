@@ -408,7 +408,7 @@ def main():
     #  STATE - False for OFF at initial state, 
     #  PHOTOPERIOD value [day hrs, night hrs])
 
-    PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[8], PWM_CONTROLLER.channels[9], PWM_CONTROLLER.channels[10]], 17, False, [12, 12])
+    PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], 17, False, [12, 12])
 
     # Uncomment to conduct light controlling tests
     LIGHT_CONTROL_TEST_2(PANEL_TOP)
