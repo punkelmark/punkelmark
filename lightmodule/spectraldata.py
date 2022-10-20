@@ -349,6 +349,7 @@ def LIGHT_CONTROL_TEST_2(LEDPANEL):
             print("Updating intensity...")
             LEDPANEL.setIntensity(intensity_counter)
             print("Intensity set to ", intensity_counter)
+            LEDPANEL.getConfig()
             x = input("Enter to increment intensity by 5%...")
             intensity_counter += 0.05
     except Exception as e:
