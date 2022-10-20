@@ -340,6 +340,8 @@ def LIGHT_CONTROL_TEST(LEDPANEL):
     print("Testing for light controller is done.")
 
 def LIGHT_CONTROL_TEST_2(LEDPANEL):
+    LEDPANEL.turnON()
+
     LEDPANEL.getConfig()
 
     intensity_counter = 0
@@ -354,6 +356,8 @@ def LIGHT_CONTROL_TEST_2(LEDPANEL):
             intensity_counter += 0.05
     except Exception as e:
         print("Encountered an error: " + str(e))
+    
+    LEDPANEL.turnOFF()
 
 def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
 
