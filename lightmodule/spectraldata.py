@@ -7,6 +7,11 @@ import adafruit_tca9548a
 from adafruit_as7341 import AS7341
 from cmath import e
 
+# ==============================  Project Notes  ============================== #
+"""
+    Optimize light controller and monitoring program
+    Spectral Data Program
+"""
 # ==============================  SETUP OBJECT INITIALIZATIONS AND GPIO  ============================== #
 
 # For panel state switching -> GPIO 17, 27, 22 (Yellow, Orange, Violet)
