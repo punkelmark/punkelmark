@@ -293,7 +293,7 @@ def LIGHT_MONITORING_TEST(sensorOne, sensorTwo):
 def LIGHT_CONTROL_TEST(LEDPANEL):
 
     x = input("Enter to start test by turning on LED panel")
-    GPIO.output(17, GPIO.HIGH)
+    LEDPANEL.turnON()
     time.sleep(3)
 
     x = input("Enter to start test for each color channel")
@@ -332,7 +332,6 @@ def LIGHT_CONTROL_TEST(LEDPANEL):
     
     LEDPANEL.turnOFF()
 
-    GPIO.output(17, GPIO.LOW)
     time.sleep(3)
 
     # Create function to set all duty cycles to 0
