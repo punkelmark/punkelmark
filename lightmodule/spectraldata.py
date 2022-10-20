@@ -208,9 +208,9 @@ class LEDPanel:
                     print("Error occured: " + str(e))
                     
             # Save new RGB duty cycle values
-            LED.DUTYCYCLE_RED = RED_TARGET - 1
-            LED.DUTYCYCLE_GREEN = GREEN_TARGET - 1
-            LED.DUTYCYCLE_BLUE = BLUE_TARGET - 1        
+            LED.DUTYCYCLE_RED = RED_TARGET
+            LED.DUTYCYCLE_GREEN = GREEN_TARGET
+            LED.DUTYCYCLE_BLUE = BLUE_TARGET     
 
 
 # ----------------------------------------------------------------------------- #
