@@ -365,6 +365,38 @@ def LIGHT_CONTROL_TEST_2(LEDPANEL):
     
     LEDPANEL.turnOFF()
 
+def LIGHT_CONTROL_TEST_3(LEDPANEL):
+    # This is for testing individual LEDs
+
+    x = input("Press ENTER to turn ON LED")
+    LEDPANEL.turnON()
+
+    check = "LED is ON" if LEDPANEL.getState() else "LED is OFF"
+    print(check)
+
+    x = input("\nPress ENTER to set all ratios to 1...")
+    LEDPANEL.setRatioRGB(1, 1, 1)
+
+
+    print("CONNECT ONLY RED PWM CHANNEL")
+    x = input("Press ENTER to decrease intensity...")
+    LEDPANEL.setIntensity(0)
+    x = input("Press ENTER to increase intensity...")
+    LEDPANEL.setIntensity(1)
+
+    print("CONNECT ONLY GREEN PWM CHANNEL")
+    x = input("Press ENTER to decrease intensity...")
+    LEDPANEL.setIntensity(0)
+    x = input("Press ENTER to increase intensity...")
+    LEDPANEL.setIntensity(1)
+
+    print("CONNECT ONLY BLUE PWM CHANNEL")
+    x = input("Press ENTER to decrease intensity...")
+    LEDPANEL.setIntensity(0)
+    x = input("Press ENTER to increase intensity...")
+    LEDPANEL.setIntensity(1)    
+
+
 def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
 
     print("|=========================================================|\n")
@@ -412,17 +444,14 @@ def main():
     # SENSOR_ONE = SpectralSensor(AS7341(I2C_MUX[4]))
     # SENSOR_TWO = SpectralSensor(AS7341(I2C_MUX[3]))
 
-    # For light control, create object for TCA9548A
-    # (RGB_RATIO [R, G, B] where each index is a value between 0 and 1, 1 for max ratio, 
-    #  RGB_CHANNEL pass TCA objects for respective RGB channel x [redchannel[x], greenchannel[x], bluechannel[x]], 
-    #  STATE - False for OFF at initial state, 
-    #  PHOTOPERIOD value [day hrs, night hrs])
-
-    PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], 17, False, [12, 12])
+    # Start panel with OFF and light intensities are LOW
+    # Arguments in order: RGB Ratio (0 to 1), TCA objects, MOSFET Switch GPIO Pin, Switch state (false for OFF), Photoperiod (Day, night)
+    PANEL_TOP = LEDPanel( [0, 0, 0], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], 17, False, [12, 12])
 
     # Uncomment to conduct light controlling tests
-    LIGHT_CONTROL_TEST(PANEL_TOP) # First light control test
+    # LIGHT_CONTROL_TEST(PANEL_TOP) # First light control test
     # LIGHT_CONTROL_TEST_2(PANEL_TOP) # Second light control test
+    LIGHT_CONTROL_TEST_3(PANEL_TOP) # Third light control test
 
     # Uncomment to conduct light monitoring tests
     # LIGHT_MONITORING_TEST(SENSOR_ONE, SENSOR_TWO)
