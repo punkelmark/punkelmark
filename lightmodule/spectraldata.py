@@ -371,7 +371,7 @@ def LIGHT_CONTROL_TEST_3(LEDPANEL):
     x = input("Press ENTER to turn ON LED")
     LEDPANEL.turnON()
 
-    check = "LED is ON" if LEDPANEL.getState() else "LED is OFF"
+    check = "LED is ON" if LEDPANEL.getSTATE() else "LED is OFF"
     print(check)
 
     x = input("\nPress ENTER to set all ratios to 1...")
