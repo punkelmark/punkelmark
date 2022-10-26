@@ -497,6 +497,12 @@ def LIGHT_CONTROL_TEST_3(LEDPANEL):
     x = input("Press ENTER to decrease BLUE intensity...")
     LEDPANEL.setIntensityBLUE(0)    
 
+    x = input("Press ENTER to turn OFF LED")
+    LEDPANEL.turnOFF()    
+
+    check = "LED is ON" if LEDPANEL.getSTATE() else "LED is OFF"
+    print(check)
+
 
 def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
 
