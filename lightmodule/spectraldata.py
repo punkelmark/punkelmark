@@ -421,8 +421,8 @@ def main():
     PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], 17, False, [12, 12])
 
     # Uncomment to conduct light controlling tests
-    # LIGHT_CONTROL_TEST(PANEL_TOP) // First light control test
-    # LIGHT_CONTROL_TEST_2(PANEL_TOP) // Second light control test
+    LIGHT_CONTROL_TEST(PANEL_TOP) # First light control test
+    # LIGHT_CONTROL_TEST_2(PANEL_TOP) # Second light control test
 
     # Uncomment to conduct light monitoring tests
     # LIGHT_MONITORING_TEST(SENSOR_ONE, SENSOR_TWO)
