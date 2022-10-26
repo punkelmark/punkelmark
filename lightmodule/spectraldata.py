@@ -9,8 +9,10 @@ from cmath import e
 
 # ==============================  Project Notes  ============================== #
 """
+    Next steps:
     Optimize light controller and monitoring program
-    Spectral Data Program
+    Fix Spectral Data Program
+    MLR Algorithm
 """
 # ==============================  SETUP OBJECT INITIALIZATIONS AND GPIO  ============================== #
 
@@ -208,9 +210,9 @@ class LEDPanel:
                     print("Error occured: " + str(e))
                     
             # Save new RGB duty cycle values
-            LED.DUTYCYCLE_RED = RED_TARGET
-            LED.DUTYCYCLE_GREEN = GREEN_TARGET
-            LED.DUTYCYCLE_BLUE = BLUE_TARGET     
+            LED.DUTYCYCLE_RED = int(RED_TARGET)
+            LED.DUTYCYCLE_GREEN = int(GREEN_TARGET)
+            LED.DUTYCYCLE_BLUE = int(BLUE_TARGET)
 
 
 # ----------------------------------------------------------------------------- #
@@ -313,6 +315,7 @@ def LIGHT_CONTROL_TEST(LEDPANEL):
 
     x = input("Enter to set intensity to 50%")
     LEDPANEL.setIntensity(0.5)
+    
     x = input("Enter to set ratio to 25%, 50%, 75%")
     LEDPANEL.setRatioRGB(0.25, 0.5, 0.75)
 
@@ -418,12 +421,10 @@ def main():
     LIGHT_CONTROL_TEST_2(PANEL_TOP)
 
     # Uncomment to conduct light monitoring tests
-    LIGHT_MONITORING_TEST(SENSOR_ONE, SENSOR_TWO)
+    # LIGHT_MONITORING_TEST(SENSOR_ONE, SENSOR_TWO)
 
     # Uncomment to conduct spectral data acquisition tests
     # SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE)
-  
-    pass
 
 if __name__=="__main__":
     main()
