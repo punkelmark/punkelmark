@@ -9,6 +9,9 @@ from cmath import e
 
 # ==============================  Project Notes  ============================== #
 """
+    Reminders:
+    Catch exceptions for object instantiations (to catch if hardware devices are not detected)
+
     Next steps:
     Optimize light controller and monitoring program
     Fix Spectral Data Program
@@ -315,7 +318,7 @@ def LIGHT_CONTROL_TEST(LEDPANEL):
 
     x = input("Enter to set intensity to 50%")
     LEDPANEL.setIntensity(0.5)
-    
+
     x = input("Enter to set ratio to 25%, 50%, 75%")
     LEDPANEL.setRatioRGB(0.25, 0.5, 0.75)
 
@@ -406,8 +409,8 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
 def main():
     
     # For light monitoring, create object for AS7341
-    SENSOR_ONE = SpectralSensor(AS7341(I2C_MUX[4]))
-    SENSOR_TWO = SpectralSensor(AS7341(I2C_MUX[3]))
+    # SENSOR_ONE = SpectralSensor(AS7341(I2C_MUX[4]))
+    # SENSOR_TWO = SpectralSensor(AS7341(I2C_MUX[3]))
 
     # For light control, create object for TCA9548A
     # (RGB_RATIO [R, G, B] where each index is a value between 0 and 1, 1 for max ratio, 
@@ -418,7 +421,8 @@ def main():
     PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], 17, False, [12, 12])
 
     # Uncomment to conduct light controlling tests
-    LIGHT_CONTROL_TEST_2(PANEL_TOP)
+    # LIGHT_CONTROL_TEST(PANEL_TOP) // First light control test
+    # LIGHT_CONTROL_TEST_2(PANEL_TOP) // Second light control test
 
     # Uncomment to conduct light monitoring tests
     # LIGHT_MONITORING_TEST(SENSOR_ONE, SENSOR_TWO)
