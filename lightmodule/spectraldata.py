@@ -377,24 +377,10 @@ def LIGHT_CONTROL_TEST_3(LEDPANEL):
     x = input("\nPress ENTER to set all ratios to 1...")
     LEDPANEL.setRatioRGB(1, 1, 1)
 
-
-    print("CONNECT ONLY RED PWM CHANNEL")
-    x = input("Press ENTER to decrease intensity...")
+    x = input("Press ENTER to decrease intensities...")
     LEDPANEL.setIntensity(0)
-    x = input("Press ENTER to increase intensity...")
+    x = input("Press ENTER to increase intensities...")
     LEDPANEL.setIntensity(1)
-
-    print("CONNECT ONLY GREEN PWM CHANNEL")
-    x = input("Press ENTER to decrease intensity...")
-    LEDPANEL.setIntensity(0)
-    x = input("Press ENTER to increase intensity...")
-    LEDPANEL.setIntensity(1)
-
-    print("CONNECT ONLY BLUE PWM CHANNEL")
-    x = input("Press ENTER to decrease intensity...")
-    LEDPANEL.setIntensity(0)
-    x = input("Press ENTER to increase intensity...")
-    LEDPANEL.setIntensity(1)    
 
 
 def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
