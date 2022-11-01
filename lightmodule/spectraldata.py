@@ -463,9 +463,9 @@ def RAW_PCA9685_TEST():
 
     y = input("Enter to set all DC to 1...")
 
-    RED.duty_cycle = 65536
-    GREEN.duty_cycle = 65536
-    BLUE.duty_cycle = 65536
+    RED.duty_cycle = 65535
+    GREEN.duty_cycle = 65535
+    BLUE.duty_cycle = 65535
 
     z = input("Enter to turn off panel")
     GPIO.output(17, GPIO.LOW)
