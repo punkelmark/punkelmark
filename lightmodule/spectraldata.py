@@ -463,14 +463,14 @@ def RAW_PCA9685_TEST():
 
     y = input("\n\nEnter to increase intensity...")
 
-    for i in range(65535, 0, -1):
+    for i in range(65535, 0, -15):
         RED.duty_cycle = i
         GREEN.duty_cycle = i
         BLUE.duty_cycle = i
 
     y = input("\n\nEnter to decrease intensity...")
 
-    for i in range(0, 65535):
+    for i in range(0, 65535, 15):
         RED.duty_cycle = i
         GREEN.duty_cycle = i
         BLUE.duty_cycle = i
