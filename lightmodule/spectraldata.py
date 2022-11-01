@@ -525,7 +525,7 @@ def main():
     # LIGHT_CONTROL_TEST(PANEL_TOP) # First light control test
     # LIGHT_CONTROL_TEST_2(PANEL_TOP) # Second light control test
     # LIGHT_CONTROL_TEST_3(PANEL_TOP) # Third light control test
-    # RAW_PCA9685_TEST() # Raw testing for PCA9685 controller
+    RAW_PCA9685_TEST() # Raw testing for PCA9685 controller
 
     # Uncomment to conduct light monitoring tests
     # LIGHT_MONITORING_TEST(SENSOR_ONE, SENSOR_TWO)
