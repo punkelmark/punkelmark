@@ -449,6 +449,12 @@ def LIGHT_CONTROL_TEST_3(LEDPANEL):
 
 def RAW_PCA9685_TEST():
 
+    '''
+    Notes
+
+    test with 5% increase of ratio  to check which ratios do not have quality light output
+    '''
+
     RED = PWM_CONTROLLER.channels[4]
     GREEN = PWM_CONTROLLER.channels[5]
     BLUE = PWM_CONTROLLER.channels[6]
