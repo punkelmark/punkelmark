@@ -493,7 +493,8 @@ def RAW_PCA9685_TEST():
             RED.duty_cycle = int(float(x) * 65535)
             GREEN.duty_cycle = int(float(x) * 65535)
             BLUE.duty_cycle = int(float(x) * 65535)
-            print("\nIntensity value to ", int(x * 65535))
+        
+        print("\nIntensity value to ", int(x * 65535))
 
 
     z = input("Enter to turn off panel")
