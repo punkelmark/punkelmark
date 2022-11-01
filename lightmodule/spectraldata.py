@@ -449,12 +449,6 @@ def LIGHT_CONTROL_TEST_3(LEDPANEL):
 
 def RAW_PCA9685_TEST():
 
-    '''
-    Notes
-
-    test with 5% increase of ratio  to check which ratios do not have quality light output
-    '''
-
     RED = PWM_CONTROLLER.channels[4]
     GREEN = PWM_CONTROLLER.channels[5]
     BLUE = PWM_CONTROLLER.channels[6]
@@ -467,6 +461,8 @@ def RAW_PCA9685_TEST():
     x = input("Enter to turn ON LED Panel...")
     GPIO.output(17, GPIO.HIGH)
 
+    # =========== TESTING FOR INTENSITY ADJUSTMENT =========== #
+    '''
     y = input("\n\nEnter to increase intensity...")
     start = time.perf_counter()
     for i in range(65535, 0, -5):
@@ -484,6 +480,24 @@ def RAW_PCA9685_TEST():
         BLUE.duty_cycle = i
     end = time.perf_counter()
     print("Time elapsed: ", end-start, " seconds")
+    '''
+    
+    # =========== TESTING FOR 5% STEP INCREASE =========== #
+
+    intensity_counter = 0
+
+    try:
+        for x in range(20):
+            print("Updating intensity...")
+            RED.duty_cycle = intensity_counter
+            GREEN.duty_cycle = intensity_counter
+            BLUE.duty_cycle = intensity_counter
+            print("Intensity set to ", intensity_counter)
+            x = input("Enter to increment intensity by 5%...")
+            intensity_counter += 0.05
+    except Exception as e:
+        print("Encountered an error: " + str(e))
+
 
     z = input("Enter to turn off panel")
     GPIO.output(17, GPIO.LOW)
