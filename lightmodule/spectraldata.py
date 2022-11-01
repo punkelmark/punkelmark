@@ -62,10 +62,10 @@ class LEDPanel:
         LED.MAX_RATIO_GREEN = RGB_RATIO[1]  
         LED.MAX_RATIO_BLUE = RGB_RATIO[2]   
 
-        # Set initial duty cycle to 0 (OFF), duty cycle values must be in integer between 0 to 65535
-        LED.DUTYCYCLE_RED = 0
-        LED.DUTYCYCLE_GREEN = 0
-        LED.DUTYCYCLE_BLUE = 0
+        # Set initial duty cycle to 65535 (OFF), duty cycle values must be in integer between 0 to 65535
+        LED.DUTYCYCLE_RED = 65535
+        LED.DUTYCYCLE_GREEN = 65535
+        LED.DUTYCYCLE_BLUE = 65535
 
         # Set STATE and PHOTOPERIOD values
         LED.SWITCH = SWITCH             # Assigned GPIO pin for switching
@@ -459,9 +459,8 @@ def RAW_PCA9685_TEST():
 
     x = input("Enter to turn ON LED Panel...")
     GPIO.output(17, GPIO.HIGH)
-    print("Panel must have NO LIGHT since duty cycles are set to 0\n\n")
 
-    y = input("Enter to set all DC to 1...")
+    y = input("\n\nEnter to set all DC to 1...")
 
     RED.duty_cycle = 65535
     GREEN.duty_cycle = 65535
