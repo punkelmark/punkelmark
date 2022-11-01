@@ -485,7 +485,7 @@ def RAW_PCA9685_TEST():
     # =========== TESTING FOR 5% STEP INCREASE =========== #
 
     while True:
-        x = input("Input value for intensity, between 0 and 1... ")
+        x = input("\n\nInput value for intensity, between 0 and 1... ")
         
         if x == 'z':
             break
@@ -493,7 +493,7 @@ def RAW_PCA9685_TEST():
         RED.duty_cycle = int(x * 65535)
         GREEN.duty_cycle = int(x * 65535)
         BLUE.duty_cycle = int(x * 65535)
-        print("Intensity value to ", int(x * 65535))
+        print("\nIntensity value to ", int(x * 65535))
 
 
     z = input("Enter to turn off panel")
