@@ -485,13 +485,14 @@ def RAW_PCA9685_TEST():
     # =========== TESTING FOR 5% STEP INCREASE =========== #
 
     intensity_counter = 0
+    value = intensity_counter * 65535
 
     try:
         for x in range(20):
             print("Updating intensity...")
-            RED.duty_cycle = intensity_counter
-            GREEN.duty_cycle = intensity_counter
-            BLUE.duty_cycle = intensity_counter
+            RED.duty_cycle = value
+            GREEN.duty_cycle = value
+            BLUE.duty_cycle = value
             print("Intensity set to ", intensity_counter)
             x = input("Enter to increment intensity by 5%...")
             intensity_counter += 0.05
