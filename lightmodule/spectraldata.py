@@ -462,21 +462,21 @@ def RAW_PCA9685_TEST():
     GPIO.output(17, GPIO.HIGH)
 
     y = input("\n\nEnter to increase intensity...")
-    start = time.perf_counter
+    start = time.perf_counter()
     for i in range(65535, 0, -15):
         RED.duty_cycle = i
         GREEN.duty_cycle = i
         BLUE.duty_cycle = i
-    end = time.perf_counter
+    end = time.perf_counter()
     print("Time elapsed: ", end-start, " seconds")
 
     y = input("\n\nEnter to decrease intensity...")
-    start = time.perf_counter
+    start = time.perf_counter()
     for i in range(0, 65535, 15):
         RED.duty_cycle = i
         GREEN.duty_cycle = i
         BLUE.duty_cycle = i
-    end = time.perf_counter
+    end = time.perf_counter()
     print("Time elapsed: ", end-start, " seconds")
 
     z = input("Enter to turn off panel")
