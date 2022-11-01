@@ -484,21 +484,15 @@ def RAW_PCA9685_TEST():
     
     # =========== TESTING FOR 5% STEP INCREASE =========== #
 
-    intensity_counter = 0
-    value = intensity_counter * 65535
+    while True:
+        x = input("Input value for intensity, between 0 and 1... ")
+        
+        if x == 'z':
+            break
 
-    try:
-        for x in range(20):
-            print("Updating intensity...")
-            RED.duty_cycle = value
-            GREEN.duty_cycle = value
-            BLUE.duty_cycle = value
-            print("Intensity set to ", intensity_counter)
-            x = input("Enter to increment intensity by 5%...")
-            intensity_counter += 0.05
-    except Exception as e:
-        print("Encountered an error: " + str(e))
-
+        RED.duty_cycle = x * 65535
+        GREEN.duty_cycle = x * 65535
+        BLUE.duty_cycle = x * 65535
 
     z = input("Enter to turn off panel")
     GPIO.output(17, GPIO.LOW)
