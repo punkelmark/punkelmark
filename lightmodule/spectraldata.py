@@ -447,6 +447,28 @@ def LIGHT_CONTROL_TEST_3(LEDPANEL):
     check = "LED is ON" if LEDPANEL.getSTATE() else "LED is OFF"
     print(check)
 
+def RAW_PCA9685_TEST():
+
+    RED = PWM_CONTROLLER.channels[4]
+    GREEN = PWM_CONTROLLER.channels[5]
+    BLUE = PWM_CONTROLLER.channels[6]
+
+    RED.duty_cycle = 0
+    GREEN.duty_cycle = 0
+    BLUE.duty_cycle = 0
+
+    x = input("Enter to turn ON LED Panel...")
+    GPIO.output(17, GPIO.HIGH)
+    print("Panel must have NO LIGHT since duty cycles are set to 0\n\n")
+
+    y = input("Enter to set all DC to 1...")
+
+    RED.duty_cycle = 1
+    GREEN.duty_cycle = 1
+    BLUE.duty_cycle = 1
+
+    z = input("Enter to turn off panel")
+    GPIO.output(17, GPIO.LOW)
 
 def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
 
