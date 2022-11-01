@@ -490,9 +490,11 @@ def RAW_PCA9685_TEST():
         if x == 'z':
             break
 
-        RED.duty_cycle = x * 65535
-        GREEN.duty_cycle = x * 65535
-        BLUE.duty_cycle = x * 65535
+        RED.duty_cycle = int(x * 65535)
+        GREEN.duty_cycle = int(x * 65535)
+        BLUE.duty_cycle = int(x * 65535)
+        print("Intensity value to ", int(x * 65535))
+
 
     z = input("Enter to turn off panel")
     GPIO.output(17, GPIO.LOW)
