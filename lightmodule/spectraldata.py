@@ -453,18 +453,27 @@ def RAW_PCA9685_TEST():
     GREEN = PWM_CONTROLLER.channels[5]
     BLUE = PWM_CONTROLLER.channels[6]
 
-    RED.duty_cycle = 1
-    GREEN.duty_cycle = 1
-    BLUE.duty_cycle = 1
+    # Full brightness for 0, 65535 for no light
+    RED.duty_cycle = 65535
+    GREEN.duty_cycle = 65535
+    BLUE.duty_cycle = 65535
 
     x = input("Enter to turn ON LED Panel...")
     GPIO.output(17, GPIO.HIGH)
 
-    y = input("\n\nEnter to set all DC to 1...")
+    y = input("\n\nEnter to increase intensity...")
 
-    RED.duty_cycle = 65535
-    GREEN.duty_cycle = 65535
-    BLUE.duty_cycle = 65535
+    for i in range(65535, 0, -1):
+        RED.duty_cycle = i
+        GREEN.duty_cycle = i
+        BLUE.duty_cycle = i
+
+    y = input("\n\nEnter to decrease intensity...")
+
+    for i in range(0, 65535):
+        RED.duty_cycle = i
+        GREEN.duty_cycle = i
+        BLUE.duty_cycle = i
 
     z = input("Enter to turn off panel")
     GPIO.output(17, GPIO.LOW)
