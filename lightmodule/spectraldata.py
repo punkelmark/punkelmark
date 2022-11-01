@@ -490,9 +490,9 @@ def RAW_PCA9685_TEST():
         if x == 'z':
             break
         else: 
-            RED.duty_cycle = int(x * 65535)
-            GREEN.duty_cycle = int(x * 65535)
-            BLUE.duty_cycle = int(x * 65535)
+            RED.duty_cycle = int(float(x) * 65535)
+            GREEN.duty_cycle = int(float(x) * 65535)
+            BLUE.duty_cycle = int(float(x) * 65535)
             print("\nIntensity value to ", int(x * 65535))
 
 
