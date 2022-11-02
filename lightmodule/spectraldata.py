@@ -340,35 +340,36 @@ def LIGHT_CONTROL_TEST(LEDPANEL):
 
     x = input("Enter to start test for each color channel")
     print("Testing red...")
-    LEDPANEL.setRatioRGB(1, 0, 0)
+    LEDPANEL.setRatioRGB(0, 1, 1)
     LEDPANEL.getConfig()    
     x = input("Testing Red done. Enter for next")
     print("Testing green...")
-    LEDPANEL.setRatioRGB(0, 1, 0)
+    LEDPANEL.setRatioRGB(1, 0, 1)
     LEDPANEL.getConfig()    
     x = input("Testing Green done. Enter for next")
     print("Testing blue...")
-    LEDPANEL.setRatioRGB(0, 0, 1)    
+    LEDPANEL.setRatioRGB(1, 1, 0)    
     LEDPANEL.getConfig()    
     x = input("Testing Blue done. Enter for next")
 
-    x = input("Enter to set intensity to 50%")
+    x = input("Enter to set intensity to 50% and ratio to max")
+    LEDPANEL.setRatioRGB(0, 0, 0)    
     LEDPANEL.setIntensityRED(0.5)
     LEDPANEL.setIntensityGREEN(0.5)
     LEDPANEL.setIntensityBLUE(0.5)
 
     x = input("Enter to set ratio to 25%, 50%, 75%")
-    LEDPANEL.setRatioRGB(0.25, 0.5, 0.75)
+    LEDPANEL.setRatioRGB(1 - 0.25, 1 - 0.5, 1 - 0.75)
 
     x = input("Enter to next test, check if LED config was updated")
     LEDPANEL.getConfig()
     x = input("Enter to set intensity to full bright")
-    LEDPANEL.setIntensityRED(1)
-    LEDPANEL.setIntensityGREEN(1)
-    LEDPANEL.setIntensityBLUE(1)
+    LEDPANEL.setIntensityRED(0)
+    LEDPANEL.setIntensityGREEN(0)
+    LEDPANEL.setIntensityBLUE(0)
 
     x = input("Enter to set new ratio again, full bright")
-    LEDPANEL.setRatioRGB(1, 1, 1)
+    LEDPANEL.setRatioRGB(0, 0, 0)
 
     # Try wrong values
     x = input("Entering 1.1 to try for wrong values for intensity")
@@ -410,46 +411,6 @@ def LIGHT_CONTROL_TEST_2(LEDPANEL):
         print("Encountered an error: " + str(e))
     
     LEDPANEL.turnOFF()
-
-def LIGHT_CONTROL_TEST_3(LEDPANEL):
-    # This is for testing individual LEDs
-
-    x = input("Press ENTER to turn ON LED")
-    LEDPANEL.turnON()
-
-    check = "LED is ON" if LEDPANEL.getSTATE() else "LED is OFF"
-    print(check)
-
-    x = input("\nPress ENTER to set all ratios to 1...")
-    LEDPANEL.setRatioRGB(1, 1, 1)
-
-    LEDPANEL.getConfig()
-
-    x = input("Press ENTER to decrease intensity of all LEDs...")
-    LEDPANEL.setIntensityRED(0)
-    LEDPANEL.setIntensityGREEN(0)
-    LEDPANEL.setIntensityBLUE(0)   
-
-    x = input("Press ENTER to increase RED intensity...")
-    LEDPANEL.setIntensityRED(1)
-    x = input("Press ENTER to decrease RED intensity...")
-    LEDPANEL.setIntensityRED(0)
-
-    x = input("Press ENTER to increase GREEN intensity...")
-    LEDPANEL.setIntensityGREEN(1)
-    x = input("Press ENTER to decrease GREEN intensity...")
-    LEDPANEL.setIntensityGREEN(0)
-
-    x = input("Press ENTER to increase BLUE intensity...")
-    LEDPANEL.setIntensityBLUE(1)
-    x = input("Press ENTER to decrease BLUE intensity...")
-    LEDPANEL.setIntensityBLUE(0)    
-
-    x = input("Press ENTER to turn OFF LED")
-    LEDPANEL.turnOFF()    
-
-    check = "LED is ON" if LEDPANEL.getSTATE() else "LED is OFF"
-    print(check)
 
 def RAW_PCA9685_TEST():
 
@@ -558,7 +519,6 @@ def main():
     # Uncomment to conduct light controlling tests
     # LIGHT_CONTROL_TEST(PANEL_TOP) # First light control test
     # LIGHT_CONTROL_TEST_2(PANEL_TOP) # Second light control test
-    # LIGHT_CONTROL_TEST_3(PANEL_TOP) # Third light control test
     RAW_PCA9685_TEST() # Raw testing for PCA9685 controller
 
     # Uncomment to conduct light monitoring tests
