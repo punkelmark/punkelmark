@@ -324,36 +324,39 @@ def LIGHT_CONTROL_TEST(LEDPANEL):
 
     x = input("Enter to start test for each color channel")
     print("Testing red...")
-    LEDPANEL.setRatioRGB(0, 1, 1)
+    LEDPANEL.setRatioRGB(1, 0, 0)
     LEDPANEL.getConfig()    
     x = input("Testing Red done. Enter for next")
     print("Testing green...")
-    LEDPANEL.setRatioRGB(1, 0, 1)
+    LEDPANEL.setRatioRGB(0, 1, 0)
     LEDPANEL.getConfig()    
     x = input("Testing Green done. Enter for next")
     print("Testing blue...")
-    LEDPANEL.setRatioRGB(1, 1, 0)    
+    LEDPANEL.setRatioRGB(0, 0, 1)    
     LEDPANEL.getConfig()    
     x = input("Testing Blue done. Enter for next")
 
     x = input("Enter to set intensity to 50% and ratio to max")
-    LEDPANEL.setRatioRGB(0, 0, 0)    
+    LEDPANEL.setRatioRGB(1, 1, 1)    
     LEDPANEL.setIntensityRED(0.5)
     LEDPANEL.setIntensityGREEN(0.5)
     LEDPANEL.setIntensityBLUE(0.5)
+    LEDPANEL.getConfig()
 
     x = input("Enter to set ratio to 25%, 50%, 75%")
-    LEDPANEL.setRatioRGB(1 - 0.25, 1 - 0.5, 1 - 0.75)
+    LEDPANEL.setRatioRGB(.25, .5, .75)
+    LEDPANEL.getConfig()
 
     x = input("Enter to next test, check if LED config was updated")
-    LEDPANEL.getConfig()
     x = input("Enter to set intensity to full bright")
     LEDPANEL.setIntensityRED(0)
     LEDPANEL.setIntensityGREEN(0)
     LEDPANEL.setIntensityBLUE(0)
+    LEDPANEL.getConfig()
 
     x = input("Enter to set new ratio again, full bright")
     LEDPANEL.setRatioRGB(0, 0, 0)
+    LEDPANEL.getConfig()
 
     # Try wrong values
     x = input("Entering 1.1 to try for wrong values for intensity")
@@ -498,7 +501,7 @@ def main():
 
     # Start panel with OFF and light intensities are LOW
     # Arguments in order: RGB Ratio (0 to 1), TCA objects, MOSFET Switch GPIO Pin, Switch state (false for OFF), Photoperiod (Day, night)
-    PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], 17, False, [12, 12])
+    PANEL_TOP = LEDPanel( [0, 0, 0], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], 17, False, [12, 12])
 
     # Uncomment to conduct light controlling tests
     LIGHT_CONTROL_TEST(PANEL_TOP) # First light control test
