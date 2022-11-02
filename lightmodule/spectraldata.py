@@ -366,7 +366,7 @@ def LIGHT_CONTROL_TEST(LEDPANEL):
     LEDPANEL.getConfig()
 
     x = input("Enter to set new ratio again, full bright")
-    LEDPANEL.setRatioRGB(0, 0, 0)
+    LEDPANEL.setRatioRGB(1, 1, 1)
     LEDPANEL.getConfig()
 
     # Try wrong values
