@@ -514,12 +514,12 @@ def main():
 
     # Start panel with OFF and light intensities are LOW
     # Arguments in order: RGB Ratio (0 to 1), TCA objects, MOSFET Switch GPIO Pin, Switch state (false for OFF), Photoperiod (Day, night)
-    PANEL_TOP = LEDPanel( [0, 0, 0], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], 17, False, [12, 12])
+    PANEL_TOP = LEDPanel( [1, 1, 1], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], 17, False, [12, 12])
 
     # Uncomment to conduct light controlling tests
-    # LIGHT_CONTROL_TEST(PANEL_TOP) # First light control test
+    LIGHT_CONTROL_TEST(PANEL_TOP) # First light control test
     # LIGHT_CONTROL_TEST_2(PANEL_TOP) # Second light control test
-    RAW_PCA9685_TEST() # Raw testing for PCA9685 controller
+    # RAW_PCA9685_TEST() # Raw testing for PCA9685 controller
 
     # Uncomment to conduct light monitoring tests
     # LIGHT_MONITORING_TEST(SENSOR_ONE, SENSOR_TWO)
