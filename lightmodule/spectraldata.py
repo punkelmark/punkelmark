@@ -61,9 +61,9 @@ class LEDPanel:
         LED.LED_BLUE = RGB_CHANNEL[2]
 
         # Set RGB ratios in float values between values 0 to 1, 0 for max brightness
-        LED.MAX_RATIO_RED = RGB_RATIO[0]    
-        LED.MAX_RATIO_GREEN = RGB_RATIO[1]  
-        LED.MAX_RATIO_BLUE = RGB_RATIO[2]   
+        LED.MAX_RATIO_RED = 1 - RGB_RATIO[0]    
+        LED.MAX_RATIO_GREEN = 1 - RGB_RATIO[1]  
+        LED.MAX_RATIO_BLUE = 1 - RGB_RATIO[2]   
 
         # Lowest value to be used will be half of the total, it is the minimum value where sufficient minimal light is emitted
         # Set initial value to half of the total
@@ -131,9 +131,9 @@ class LEDPanel:
             LED.MAX_RATIO_GREEN = newGREEN
             LED.MAX_RATIO_BLUE = newBLUE
 
-            LED.DUTYCYCLE_RED = 0 if LED.MAX_RATIO_RED == 0 else (LED.MAX_RATIO_RED * MINIMAL_LIGHT_VALUE) - 1
-            LED.DUTYCYCLE_GREEN = 0 if LED.MAX_RATIO_GREEN == 0 else (LED.MAX_RATIO_GREEN * MINIMAL_LIGHT_VALUE) - 1
-            LED.DUTYCYCLE_BLUE = 0 if LED.MAX_RATIO_BLUE == 0 else (LED.MAX_RATIO_BLUE * MINIMAL_LIGHT_VALUE) - 1            
+            LED.DUTYCYCLE_RED = 0 if 1 - newRED == 0 else ((1 - newRED) * MINIMAL_LIGHT_VALUE) - 1
+            LED.DUTYCYCLE_GREEN = 0 if 1 - newGREEN == 0 else ((1 - newGREEN) * MINIMAL_LIGHT_VALUE) - 1
+            LED.DUTYCYCLE_BLUE = 0 if 1 - newBLUE == 0 else ((1 - newBLUE) * MINIMAL_LIGHT_VALUE) - 1            
 
             # Set appropriate duty cycles for each, convert values to hex notation
             LED.LED_RED.duty_cycle = int(LED.DUTYCYCLE_RED)
@@ -145,15 +145,13 @@ class LEDPanel:
         if VALUE < 0 or VALUE > 1:
             return print("Values are out of range. Please re-enter values.")
         else: 
-
+            print("--------------------------------------------------------------------------")
             # Multiply duty cycle ratio to the set maximum ratio for each RGB channel corresponding to appropriate light levels for each color ratio mix
             # Calculate duty cycle target values for each ratio by multiplying to MINIMAL_LIGHT_VALUE
-            RED_TARGET = 0 if VALUE == 0 else (LED.MAX_RATIO_RED * VALUE * MINIMAL_LIGHT_VALUE) - 1
-            print("RED_TARGET value: ", RED_TARGET)
+            RED_TARGET = 0 if 1 - VALUE == 0 else (LED.MAX_RATIO_RED * (1 - VALUE) * MINIMAL_LIGHT_VALUE) - 1
 
             # Check if new RGB targets are less or greater than the desired value to apply appropriate dimming control
             # Update red
-            print("Current LED.DUTYCYCLE_RED value: ", LED.DUTYCYCLE_RED)
             if RED_TARGET > LED.DUTYCYCLE_RED:
                 # Decrease brightness
                 try:
@@ -172,25 +170,20 @@ class LEDPanel:
                 except Exception as e:
                     print("Error occured: " + str(e))
                     
-            # Save new RGB duty cycle values
-            print("Updated LED.DUTYCYCLE_RED value: ", LED.DUTYCYCLE_RED)                
-            LED.DUTYCYCLE_RED = int(RED_TARGET)
-            print("Saved LED.DUTYCYCLE_RED value: ", LED.DUTYCYCLE_RED)                            
+            print("--------------------------------------------------------------------------")
 
     def setIntensityGREEN(LED, VALUE):
         # Check if values are out of range
         if VALUE < 0 or VALUE > 1:
             return print("Values are out of range. Please re-enter values.")
         else: 
-
+            print("--------------------------------------------------------------------------")
             # Multiply duty cycle ratio to the set maximum ratio for each RGB channel corresponding to appropriate light levels for each color ratio mix
             # Calculate duty cycle target values for each ratio by multiplying to MINIMAL_LIGHT_VALUE
-            GREEN_TARGET = 0 if VALUE == 0 else (LED.MAX_RATIO_GREEN * VALUE * MINIMAL_LIGHT_VALUE) - 1
-            print("GREEN_TARGET value: ", GREEN_TARGET)
+            GREEN_TARGET = 0 if 1 - VALUE == 0 else (LED.MAX_RATIO_GREEN * (1 - VALUE) * MINIMAL_LIGHT_VALUE) - 1
 
             # Check if new RGB targets are less or greater than the desired value to apply appropriate dimming control
             # Update green
-            print("Current LED.DUTYCYCLE_GREEN value: ", LED.DUTYCYCLE_GREEN)            
             if GREEN_TARGET > LED.DUTYCYCLE_GREEN:
                 # Decrease brightness
                 try:
@@ -209,26 +202,21 @@ class LEDPanel:
                     print("...task done.")
                 except Exception as e:
                     print("Error occured: " + str(e))
-
-            # Save new RGB duty cycle values
-            print("Updated LED.DUTYCYCLE_GREEN value: ", LED.DUTYCYCLE_GREEN)                          
-            LED.DUTYCYCLE_GREEN = int(GREEN_TARGET)
-            print("Saved LED.DUTYCYCLE_GREEN value: ", LED.DUTYCYCLE_GREEN)            
+     
+            print("--------------------------------------------------------------------------")
 
     def setIntensityBLUE(LED, VALUE):
         # Check if values are out of range
         if VALUE < 0 or VALUE > 1:
             return print("Values are out of range. Please re-enter values.")
         else: 
-
+            print("--------------------------------------------------------------------------")
             # Multiply duty cycle ratio to the set maximum ratio for each RGB channel corresponding to appropriate light levels for each color ratio mix
             # Calculate duty cycle target values for each ratio by multiplying to MINIMAL_LIGHT_VALUE
-            BLUE_TARGET = 0 if VALUE == 0 else (LED.MAX_RATIO_BLUE * VALUE * MINIMAL_LIGHT_VALUE) - 1
-            print("BLUE_TARGET value: ", BLUE_TARGET)
+            BLUE_TARGET = 0 if 1 - VALUE == 0 else (LED.MAX_RATIO_BLUE * (1 - VALUE) * MINIMAL_LIGHT_VALUE) - 1
 
             # Check if new RGB targets are less or greater than the desired value to apply appropriate dimming control
-            # Update blue
-            print("Current LED.DUTYCYCLE_BLUE value: ", LED.DUTYCYCLE_BLUE)            
+            # Update blue           
             if BLUE_TARGET > LED.DUTYCYCLE_RED:
                 # Decrease brightness
                 try:
@@ -247,12 +235,8 @@ class LEDPanel:
                     print("...task done.")
                 except Exception as e:
                     print("Error occured: " + str(e))
-                    
-            # Save new RGB duty cycle values
-            print("Updated LED.DUTYCYCLE_BLUE value: ", LED.DUTYCYCLE_BLUE)              
-            LED.DUTYCYCLE_BLUE = int(BLUE_TARGET)
-            print("Saved LED.DUTYCYCLE_BLUE value: ", LED.DUTYCYCLE_BLUE)               
-
+                             
+            print("--------------------------------------------------------------------------")
 
 # ----------------------------------------------------------------------------- #
 #                       Spectral data capture class                             #
