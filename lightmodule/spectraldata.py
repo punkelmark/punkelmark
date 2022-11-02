@@ -61,9 +61,9 @@ class LEDPanel:
         LED.LED_BLUE = RGB_CHANNEL[2]
 
         # Set RGB ratios in float values between values 0 to 1, 0 for max brightness
-        LED.MAX_RATIO_RED = 1 - RGB_RATIO[0]    
-        LED.MAX_RATIO_GREEN = 1 - RGB_RATIO[1]  
-        LED.MAX_RATIO_BLUE = 1 - RGB_RATIO[2]   
+        LED.MAX_RATIO_RED = RGB_RATIO[0]    
+        LED.MAX_RATIO_GREEN = RGB_RATIO[1]  
+        LED.MAX_RATIO_BLUE = RGB_RATIO[2]   
 
         # Lowest value to be used will be half of the total, it is the minimum value where sufficient minimal light is emitted
         # Set initial value to half of the total
@@ -158,6 +158,8 @@ class LEDPanel:
                     print("Decreasing brightness...")                    
                     for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET)):
                         LED.LED_RED.duty_cycle = i
+                    print("...task done.")
+                    LED.LED_RED.duty_cycle = RED_TARGET                        
                 except Exception as e:
                     print("Error occured: " + str(e))
             else:
@@ -167,6 +169,7 @@ class LEDPanel:
                     for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET), -1):
                         LED.LED_RED.duty_cycle = i
                     print("...task done.")
+                    LED.LED_RED.duty_cycle = RED_TARGET
                 except Exception as e:
                     print("Error occured: " + str(e))
                     
@@ -190,7 +193,8 @@ class LEDPanel:
                     print("Decreasing brightness...")
                     for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET)):
                         LED.LED_GREEN.duty_cycle = i
-                    print("... task done.")                
+                    print("... task done.")
+                    LED.LED_GREEN.duty_cycle = GREEN_TARGET                
                 except Exception as e:
                     print("Error occured: " + str(e))
             else:
@@ -200,6 +204,7 @@ class LEDPanel:
                     for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET), -1):
                         LED.LED_GREEN.duty_cycle = i
                     print("...task done.")
+                    LED.LED_GREEN.duty_cycle = GREEN_TARGET
                 except Exception as e:
                     print("Error occured: " + str(e))
      
@@ -223,7 +228,8 @@ class LEDPanel:
                     print("Decreasing brightness...")
                     for i in range(int(LED.DUTYCYCLE_BLUE), int(BLUE_TARGET)):
                         LED.LED_BLUE.duty_cycle = i
-                    print("... task done.")                
+                    print("... task done.")
+                    LED.LED_BLUE.duty_cycle = BLUE_TARGET                
                 except Exception as e:
                     print("Error occured: " + str(e))
             else:
@@ -233,6 +239,7 @@ class LEDPanel:
                     for i in range(int(LED.DUTYCYCLE_BLUE), int(BLUE_TARGET), -1):
                         LED.LED_BLUE.duty_cycle = i
                     print("...task done.")
+                    LED.LED_BLUE.duty_cycle = BLUE_TARGET                
                 except Exception as e:
                     print("Error occured: " + str(e))
                              
