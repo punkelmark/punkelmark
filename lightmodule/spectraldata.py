@@ -71,9 +71,9 @@ class LEDPanel:
         LED.DUTYCYCLE_GREEN = MINIMAL_LIGHT_VALUE - 1
         LED.DUTYCYCLE_BLUE = MINIMAL_LIGHT_VALUE - 1
 
-        LED.LED_RED.duty_cycle = LED.DUTYCYCLE_RED
-        LED.LED_GREEN.duty_cycle = LED.DUTYCYCLE_GREEN
-        LED.LED_BLUE.duty_cycle = LED.DUTYCYCLE_BLUE
+        LED.LED_RED.duty_cycle = int(LED.DUTYCYCLE_RED)
+        LED.LED_GREEN.duty_cycle = int(LED.DUTYCYCLE_GREEN)
+        LED.LED_BLUE.duty_cycle = int(LED.DUTYCYCLE_BLUE)
 
         # Set STATE and PHOTOPERIOD values
         LED.SWITCH = SWITCH             # Assigned GPIO pin for switching
