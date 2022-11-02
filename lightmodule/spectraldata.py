@@ -67,9 +67,9 @@ class LEDPanel:
 
         # Lowest value to be used will be half of the total, it is the minimum value where sufficient minimal light is emitted
         # Set initial value to half of the total
-        LED.DUTYCYCLE_RED = MINIMAL_LIGHT_VALUE - 1
-        LED.DUTYCYCLE_GREEN = MINIMAL_LIGHT_VALUE - 1
-        LED.DUTYCYCLE_BLUE = MINIMAL_LIGHT_VALUE - 1
+        LED.DUTYCYCLE_RED = 65535
+        LED.DUTYCYCLE_GREEN = 65535
+        LED.DUTYCYCLE_BLUE = 65535
 
         LED.LED_RED.duty_cycle = int(LED.DUTYCYCLE_RED)
         LED.LED_GREEN.duty_cycle = int(LED.DUTYCYCLE_GREEN)
