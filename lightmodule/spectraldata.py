@@ -32,9 +32,11 @@ GPIO.output(17, GPIO.LOW)
 GPIO.output(27, GPIO.LOW)
 GPIO.output(22, GPIO.LOW)
 
+
 # Initializing objects for TCA9548a amd PCA9685
 i2c_monitoring = board.I2C() # uses board.SCL and board.SDA
-I2C_MUX = adafruit_tca9548a.TCA9548A(i2c_monitoring)
+spectrometer = AS7341(i2c_monitoring) # For light monitoring, create object for AS7341
+# I2C_MUX = adafruit_tca9548a.TCA9548A(i2c_monitoring)
 
 i2c_control = busio.I2C(board.SCL, board.SDA)
 PWM_CONTROLLER = adafruit_pca9685.PCA9685(i2c_control)
@@ -451,10 +453,6 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
         print("Spectral data capture program encountered an error: " + str(e))
 
 def main():
-    
-    # For light monitoring, create object for AS7341
-    SENSOR_ONE = SpectralSensor(AS7341(I2C_MUX[4]))
-    SENSOR_TWO = SpectralSensor(AS7341(I2C_MUX[3]))
 
     # Initialize panel with OFF and light intensities are LOW
     # Arguments in order: RGB Ratio (0 to 1), TCA objects, MOSFET Switch GPIO Pin, Switch state (false for OFF), Photoperiod (Day, night)
@@ -465,8 +463,7 @@ def main():
     # LIGHT_CONTROL_TEST_2(PANEL_TOP) # Second light control test
 
     # Uncomment to conduct light monitoring tests
-    LIGHT_MONITORING_TEST(SENSOR_TWO)
-    LIGHT_MONITORING_TEST(SENSOR_ONE)
+    LIGHT_MONITORING_TEST(spectrometer)
 
     # Uncomment to conduct spectral data acquisition tests
     # SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE)
