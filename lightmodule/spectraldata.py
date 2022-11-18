@@ -460,8 +460,8 @@ def SPECTRAL_DATA_TO_EXCEL(sensor):
     workbook = xlsxwriter.Workbook('spd.xlsx')
     worksheet = workbook.add_worksheet()
 
-    for col, data in enumerate (SPD):
-        worksheet.write_column(0, col, data)
+    for col, data in enumerate(SPD):
+        worksheet.write_column(0, col, str(data))
 
     workbook.close()
 
