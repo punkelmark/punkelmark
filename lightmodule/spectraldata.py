@@ -6,6 +6,7 @@ import adafruit_pca9685
 import adafruit_tca9548a
 from adafruit_as7341 import AS7341
 from cmath import e
+import xlsxwriter
 
 # ==============================  Project Notes  ============================== #
 """
@@ -413,6 +414,8 @@ def LIGHT_CONTROL_TEST_2(LEDPANEL):
 
 def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
 
+    PANEL_TOP.turnON()
+
     print("|=========================================================|\n")
     print("               SPECTRAL DATA CAPTURE PROGRAM                 ")
     print("|=========================================================|\n\n")
@@ -452,6 +455,17 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
     except Exception as e:
         print("Spectral data capture program encountered an error: " + str(e))
 
+def SPECTRAL_DATA_TO_EXCEL(sensor):
+    SPD = sensor.get_spectraldata
+    workbook = xlsxwriter.Workbook('spd.xlsx')
+    worksheet = workbook.add_worksheet()
+
+    for col, data in enumerate (SPD):
+        worksheet.write_column(0, col, data)
+
+    workbook.close()
+
+
 def main():
 
     spectralsensor = SpectralSensor(spectrometer)
@@ -465,10 +479,11 @@ def main():
     # LIGHT_CONTROL_TEST_2(PANEL_TOP) # Second light control test
 
     # Uncomment to conduct light monitoring tests
-    LIGHT_MONITORING_TEST(spectralsensor)
+    # LIGHT_MONITORING_TEST(spectralsensor)
 
     # Uncomment to conduct spectral data acquisition tests
-    # SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE)
+    # SPECTRAL_DATA_CAPTURE(PANEL_TOP, spectralsensor)
+    SPECTRAL_DATA_TO_EXCEL(spectralsensor)
 
 if __name__=="__main__":
     main()
