@@ -454,6 +454,8 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
 
 def main():
 
+    spectralsensor = SpectralSensor(spectrometer)
+
     # Initialize panel with OFF and light intensities are LOW
     # Arguments in order: RGB Ratio (0 to 1), TCA objects, MOSFET Switch GPIO Pin, Switch state (false for OFF), Photoperiod (Day, night)
     PANEL_TOP = LEDPanel( [0, 0, 0], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], 17, False, [12, 12])
@@ -463,7 +465,7 @@ def main():
     # LIGHT_CONTROL_TEST_2(PANEL_TOP) # Second light control test
 
     # Uncomment to conduct light monitoring tests
-    LIGHT_MONITORING_TEST(spectrometer)
+    LIGHT_MONITORING_TEST(spectralsensor)
 
     # Uncomment to conduct spectral data acquisition tests
     # SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE)
