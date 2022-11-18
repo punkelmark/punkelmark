@@ -457,6 +457,7 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
 
 def SPECTRAL_DATA_TO_EXCEL(sensor):
     SPD = sensor.get_spectraldata()
+    print(SPD[0])
     workbook = xlsxwriter.Workbook('spd.xlsx')
     worksheet = workbook.add_worksheet()
 
