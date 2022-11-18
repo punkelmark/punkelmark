@@ -321,11 +321,12 @@ class SpectralSensor:
 # ----------------------------------------------------------------------------- #
 
 def LIGHT_MONITORING_TEST(sensorOne, sensorTwo):
-
+    print("================================================")
     print("             AS7341 One")
     sensorOne.disp_freq()
     print("             AS7341 Two")
     sensorTwo.disp_freq()
+    print("================================================")
 
 def LIGHT_CONTROL_TEST(LEDPANEL):
 
@@ -410,59 +411,6 @@ def LIGHT_CONTROL_TEST_2(LEDPANEL):
     
     LEDPANEL.turnOFF()
 
-def RAW_PCA9685_TEST():
-
-    RED = PWM_CONTROLLER.channels[4]
-    GREEN = PWM_CONTROLLER.channels[5]
-    BLUE = PWM_CONTROLLER.channels[6]
-
-    # Full brightness for 0, 65535 for no light
-    RED.duty_cycle = 65535
-    GREEN.duty_cycle = 65535
-    BLUE.duty_cycle = 65535
-
-    x = input("Enter to turn ON LED Panel...")
-    GPIO.output(17, GPIO.HIGH)
-
-    # =========== TESTING FOR INTENSITY ADJUSTMENT =========== #
-    '''
-    y = input("\n\nEnter to increase intensity...")
-    start = time.perf_counter()
-    for i in range(65535, 0, -5):
-        RED.duty_cycle = i
-        GREEN.duty_cycle = i
-        BLUE.duty_cycle = i
-    end = time.perf_counter()
-    print("Time elapsed: ", end-start, " seconds")
-
-    y = input("\n\nEnter to decrease intensity...")
-    start = time.perf_counter()
-    for i in range(0, 65535, 5):
-        RED.duty_cycle = i
-        GREEN.duty_cycle = i
-        BLUE.duty_cycle = i
-    end = time.perf_counter()
-    print("Time elapsed: ", end-start, " seconds")
-    '''
-    
-    # =========== TESTING FOR 5% STEP INCREASE =========== #
-
-    while True:
-        x = input("\n\nInput value for intensity, between 0 and 1... ")
-        
-        if x == 'z':
-            break
-        else: 
-            RED.duty_cycle = int(float(x) * 65535)
-            GREEN.duty_cycle = int(float(x) * 65535)
-            BLUE.duty_cycle = int(float(x) * 65535)
-        
-        print("\nIntensity value to ", int(float(x) * 65535))
-
-
-    z = input("Enter to turn off panel")
-    GPIO.output(17, GPIO.LOW)
-
 def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
 
     print("|=========================================================|\n")
@@ -507,20 +455,19 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
 def main():
     
     # For light monitoring, create object for AS7341
-    # SENSOR_ONE = SpectralSensor(AS7341(I2C_MUX[4]))
+    SENSOR_ONE = SpectralSensor(AS7341(I2C_MUX[4]))
     # SENSOR_TWO = SpectralSensor(AS7341(I2C_MUX[3]))
 
-    # Start panel with OFF and light intensities are LOW
+    # Initialize panel with OFF and light intensities are LOW
     # Arguments in order: RGB Ratio (0 to 1), TCA objects, MOSFET Switch GPIO Pin, Switch state (false for OFF), Photoperiod (Day, night)
     PANEL_TOP = LEDPanel( [0, 0, 0], [PWM_CONTROLLER.channels[4], PWM_CONTROLLER.channels[5], PWM_CONTROLLER.channels[6]], 17, False, [12, 12])
 
     # Uncomment to conduct light controlling tests
-    LIGHT_CONTROL_TEST(PANEL_TOP) # First light control test
+    # LIGHT_CONTROL_TEST(PANEL_TOP) # First light control test
     # LIGHT_CONTROL_TEST_2(PANEL_TOP) # Second light control test
-    # RAW_PCA9685_TEST() # Raw testing for PCA9685 controller
 
     # Uncomment to conduct light monitoring tests
-    # LIGHT_MONITORING_TEST(SENSOR_ONE, SENSOR_TWO)
+    LIGHT_MONITORING_TEST(SENSOR_ONE, SENSOR_ONE)
 
     # Uncomment to conduct spectral data acquisition tests
     # SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE)
