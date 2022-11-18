@@ -307,15 +307,15 @@ class SpectralSensor:
 
     def get_spectraldata(self):
         # Gets spectral data from AS7341 sensor object and return the data in a list
-        SPD = [[self.SENSOR.channel_415nm], 
-               [self.SENSOR.channel_445nm],
-               [self.SENSOR.channel_480nm],
-               [self.SENSOR.channel_515nm],
-               [self.SENSOR.channel_555nm],
-               [self.SENSOR.channel_590nm],
-               [self.SENSOR.channel_630nm],
-               [self.SENSOR.channel_680nm],
-               [self.SENSOR.channel_nir]]
+        SPD = [self.SENSOR.channel_415nm, 
+               self.SENSOR.channel_445nm,
+               self.SENSOR.channel_480nm,
+               self.SENSOR.channel_515nm,
+               self.SENSOR.channel_555nm,
+               self.SENSOR.channel_590nm,
+               self.SENSOR.channel_630nm,
+               self.SENSOR.channel_680nm,
+               self.SENSOR.channel_nir]
 
         return SPD
 
