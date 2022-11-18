@@ -6,7 +6,7 @@ import adafruit_pca9685
 import adafruit_tca9548a
 from adafruit_as7341 import AS7341
 from cmath import e
-import pandas as pd
+import numpy
 
 # ==============================  Project Notes  ============================== #
 """
@@ -457,10 +457,8 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
 
 def SPECTRAL_DATA_TO_EXCEL(sensor):
     SPD = sensor.get_spectraldata()
-    print(SPD)
-    dataframe = pd.DataFrame(SPD)
 
-    dataframe.to_csv("spd.csv")
+    numpy.savetxt("spd.csv", SPD, delimiter = ",")
 
 
 def main():
