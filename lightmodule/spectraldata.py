@@ -453,7 +453,7 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
 def main():
     
     # For light monitoring, create object for AS7341
-    # SENSOR_ONE = SpectralSensor(AS7341(I2C_MUX[4]))
+    SENSOR_ONE = SpectralSensor(AS7341(I2C_MUX[4]))
     SENSOR_TWO = SpectralSensor(AS7341(I2C_MUX[3]))
 
     # Initialize panel with OFF and light intensities are LOW
@@ -466,6 +466,7 @@ def main():
 
     # Uncomment to conduct light monitoring tests
     LIGHT_MONITORING_TEST(SENSOR_TWO)
+    LIGHT_MONITORING_TEST(SENSOR_ONE)
 
     # Uncomment to conduct spectral data acquisition tests
     # SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE)
