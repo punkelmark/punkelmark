@@ -456,7 +456,7 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
         print("Spectral data capture program encountered an error: " + str(e))
 
 def SPECTRAL_DATA_TO_EXCEL(sensor):
-    SPD = sensor.get_spectraldata
+    SPD = sensor.get_spectraldata()
     workbook = xlsxwriter.Workbook('spd.xlsx')
     worksheet = workbook.add_worksheet()
 
