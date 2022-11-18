@@ -461,7 +461,7 @@ def SPECTRAL_DATA_TO_EXCEL(sensor):
     workbook = openpyxl.Workbook('spd.xlsx')
     worksheet = workbook.active
 
-    for count, data in SPD:
+    for count, data in enumerate(SPD):
         cell = worksheet.cell(row = 1, column = count+1)
         cell.value = data
 
