@@ -325,7 +325,7 @@ class SpectralSensor:
 def LIGHT_MONITORING_TEST(sensor):
     print("================================================")
     print("             AS7341 Spectral Data")
-    sensor.disp_freq()
+    sensor.disp_freq
     print("================================================")
 
 def LIGHT_CONTROL_TEST(LEDPANEL):
