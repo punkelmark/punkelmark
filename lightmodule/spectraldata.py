@@ -6,7 +6,7 @@ import adafruit_pca9685
 import adafruit_tca9548a
 from adafruit_as7341 import AS7341
 from cmath import e
-import xlsxwriter
+import openpyxl
 
 # ==============================  Project Notes  ============================== #
 """
@@ -457,13 +457,15 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
 
 def SPECTRAL_DATA_TO_EXCEL(sensor):
     SPD = sensor.get_spectraldata()
-    print(SPD[0])
-    workbook = xlsxwriter.Workbook('spd.xlsx')
-    worksheet = workbook.add_worksheet()
+    
+    workbook = openpyxl.Workbook('spd.xlsx')
+    worksheet = workbook.active
 
-    for col, data in enumerate(SPD):
-        worksheet.write_column(0, col, str(data))
+    for count, data in SPD:
+        cell = worksheet.cell(row = 1, column = count+1)
+        cell.value = data
 
+    workbook.save()
     workbook.close()
 
 
