@@ -320,12 +320,10 @@ class SpectralSensor:
 #                                Main program
 # ----------------------------------------------------------------------------- #
 
-def LIGHT_MONITORING_TEST(sensorOne, sensorTwo):
+def LIGHT_MONITORING_TEST(sensor):
     print("================================================")
-    print("             AS7341 One")
-    sensorOne.disp_freq()
-    print("             AS7341 Two")
-    sensorTwo.disp_freq()
+    print("             AS7341 Spectral Data")
+    sensor.disp_freq()
     print("================================================")
 
 def LIGHT_CONTROL_TEST(LEDPANEL):
@@ -455,8 +453,8 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
 def main():
     
     # For light monitoring, create object for AS7341
-    SENSOR_ONE = SpectralSensor(AS7341(I2C_MUX[4]))
-    # SENSOR_TWO = SpectralSensor(AS7341(I2C_MUX[3]))
+    # SENSOR_ONE = SpectralSensor(AS7341(I2C_MUX[4]))
+    SENSOR_TWO = SpectralSensor(AS7341(I2C_MUX[3]))
 
     # Initialize panel with OFF and light intensities are LOW
     # Arguments in order: RGB Ratio (0 to 1), TCA objects, MOSFET Switch GPIO Pin, Switch state (false for OFF), Photoperiod (Day, night)
@@ -467,7 +465,7 @@ def main():
     # LIGHT_CONTROL_TEST_2(PANEL_TOP) # Second light control test
 
     # Uncomment to conduct light monitoring tests
-    LIGHT_MONITORING_TEST(SENSOR_ONE, SENSOR_ONE)
+    LIGHT_MONITORING_TEST(SENSOR_TWO)
 
     # Uncomment to conduct spectral data acquisition tests
     # SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE)
