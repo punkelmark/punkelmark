@@ -152,7 +152,6 @@ class LEDPanel:
         if VALUE < 0 or VALUE > 1:
             return print("Values are out of range. Please re-enter values.")
         else: 
-            print("--------------------------------------------------------------------------")
             # Multiply duty cycle ratio to the set maximum ratio for each RGB channel corresponding to appropriate light levels for each color ratio mix
             # Calculate duty cycle target values for each ratio by multiplying to MINIMAL_LIGHT_VALUE
             RED_TARGET = 0 if 1 - VALUE == 0 else (LED.MAX_RATIO_RED * (1 - VALUE) * MINIMAL_LIGHT_VALUE) - 1
@@ -162,7 +161,7 @@ class LEDPanel:
             if RED_TARGET > LED.DUTYCYCLE_RED:
                 # Decrease brightness
                 try:
-                    print("Decreasing brightness...")                    
+                    print("Decreasing brightness...", end = " ")                    
                     for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET)):
                         LED.LED_RED.duty_cycle = i
                     print("...task done.")
@@ -172,22 +171,19 @@ class LEDPanel:
             else:
                 # Increase brightness
                 try:
-                    print("Increasing brightness...")
+                    print("Increasing brightness...", end = " ")
                     for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET), -1):
                         LED.LED_RED.duty_cycle = i
                     print("...task done.")
                     LED.LED_RED.duty_cycle = int(RED_TARGET)
                 except Exception as e:
                     print("Error occured: " + str(e))
-                    
-            print("--------------------------------------------------------------------------")
 
     def setIntensityGREEN(LED, VALUE):
         # Check if values are out of range
         if VALUE < 0 or VALUE > 1:
             return print("Values are out of range. Please re-enter values.")
         else: 
-            print("--------------------------------------------------------------------------")
             # Multiply duty cycle ratio to the set maximum ratio for each RGB channel corresponding to appropriate light levels for each color ratio mix
             # Calculate duty cycle target values for each ratio by multiplying to MINIMAL_LIGHT_VALUE
             GREEN_TARGET = 0 if 1 - VALUE == 0 else (LED.MAX_RATIO_GREEN * (1 - VALUE) * MINIMAL_LIGHT_VALUE) - 1
@@ -197,7 +193,7 @@ class LEDPanel:
             if GREEN_TARGET > LED.DUTYCYCLE_GREEN:
                 # Decrease brightness
                 try:
-                    print("Decreasing brightness...")
+                    print("Decreasing brightness...", end = " ")
                     for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET)):
                         LED.LED_GREEN.duty_cycle = i
                     print("... task done.")
@@ -207,22 +203,19 @@ class LEDPanel:
             else:
                 # Increase brightness
                 try:
-                    print("Increasing brightness...")
+                    print("Increasing brightness...", end = " ")
                     for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET), -1):
                         LED.LED_GREEN.duty_cycle = i
                     print("...task done.")
                     LED.LED_GREEN.duty_cycle = int(GREEN_TARGET)
                 except Exception as e:
                     print("Error occured: " + str(e))
-     
-            print("--------------------------------------------------------------------------")
 
     def setIntensityBLUE(LED, VALUE):
         # Check if values are out of range
         if VALUE < 0 or VALUE > 1:
             return print("Values are out of range. Please re-enter values.")
         else: 
-            print("--------------------------------------------------------------------------")
             # Multiply duty cycle ratio to the set maximum ratio for each RGB channel corresponding to appropriate light levels for each color ratio mix
             # Calculate duty cycle target values for each ratio by multiplying to MINIMAL_LIGHT_VALUE
             BLUE_TARGET = 0 if 1 - VALUE == 0 else (LED.MAX_RATIO_BLUE * (1 - VALUE) * MINIMAL_LIGHT_VALUE) - 1
@@ -232,7 +225,7 @@ class LEDPanel:
             if BLUE_TARGET > LED.DUTYCYCLE_RED:
                 # Decrease brightness
                 try:
-                    print("Decreasing brightness...")
+                    print("Decreasing brightness...", end = " ")
                     for i in range(int(LED.DUTYCYCLE_BLUE), int(BLUE_TARGET)):
                         LED.LED_BLUE.duty_cycle = i
                     print("... task done.")
@@ -242,7 +235,7 @@ class LEDPanel:
             else:
                 # Increase brightness
                 try:
-                    print("Increasing brightness...")
+                    print("Increasing brightness...", end = " ")
                     for i in range(int(LED.DUTYCYCLE_BLUE), int(BLUE_TARGET), -1):
                         LED.LED_BLUE.duty_cycle = i
                     print("...task done.")
@@ -250,8 +243,6 @@ class LEDPanel:
                 except Exception as e:
                     print("Error occured: " + str(e))
                              
-            print("--------------------------------------------------------------------------")
-
 # ----------------------------------------------------------------------------- #
 #                       Spectral data capture class                             #
 # ----------------------------------------------------------------------------- #
@@ -434,7 +425,7 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
         samples = [["CH1", "CH2", "CH3", "CH4", "CH5", "CH6", "CH7", "CH8", "NIR", "PPFD"]]
         
         # Iterate data capture for 20 light levels
-        for x in range(20):
+        for x in range(3):
             try:
                 spectraldata = SENSOR_ONE.get_spectraldata()
                 print("Spectral data captured at light intensity {0} ...".format(intensity_counter))
