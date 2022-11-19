@@ -433,7 +433,7 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
                 print("Spectral data capture failed")
             PPFD = input("Enter equivalent PPFD: ")
         
-            spectraldata.append(PPFD)
+            spectraldata.append(int(PPFD))
             print(spectraldata)
             samples.append(spectraldata)
             print(samples)
