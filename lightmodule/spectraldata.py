@@ -414,18 +414,21 @@ def LIGHT_CONTROL_TEST_2(LEDPANEL):
 
 def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
 
-    PANEL_TOP.turnON()
+    PANEL_TOP.turnOFF()
 
     print("|=========================================================|\n")
     print("               SPECTRAL DATA CAPTURE PROGRAM                 ")
     print("|=========================================================|\n\n")
     x = input("                 Press enter to continue                     \n\n\n\n")
+    PANEL_TOP.turnON()
 
     intensity_counter = 0.05
 
     try:
         # Set brightness to 5% initial
-        PANEL_TOP.setIntensity(intensity_counter)
+        PANEL_TOP.setIntensityRED(intensity_counter)
+        PANEL_TOP.setIntensityGREEN(intensity_counter)
+        PANEL_TOP.setIntensityBLUE(intensity_counter)
 
         # Create list for storing data samples
         samples = [["CH1", "CH2", "CH3", "CH4", "CH5", "CH6", "CH7", "CH8", "NIR", "PPFD"]]
@@ -445,7 +448,9 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
             # Increase brightness by 5%
             print("\n\nIncreasing brightness by  5%...")
             intensity_counter += 0.05
-            PANEL_TOP.setIntensity(intensity_counter)
+            PANEL_TOP.setIntensityRED(intensity_counter)
+            PANEL_TOP.setIntensityGREEN(intensity_counter)
+            PANEL_TOP.setIntensityBLUE(intensity_counter)
 
         print("Spectral data capture program has finished...")
 
