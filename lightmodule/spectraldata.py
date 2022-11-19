@@ -434,7 +434,9 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
             PPFD = input("Enter equivalent PPFD: ")
         
             spectraldata.append(PPFD)
+            spectraldata
             samples.append(spectraldata)
+            samples
 
             # Increase brightness by 5%
             print("\n\nIncreasing brightness by  5%...")
