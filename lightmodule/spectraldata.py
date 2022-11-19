@@ -416,16 +416,11 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
     intensity_counter = 0.00
 
     try:
-        # Set brightness to 5% initial
-        PANEL_TOP.setIntensityRED(intensity_counter)
-        PANEL_TOP.setIntensityGREEN(intensity_counter)
-        PANEL_TOP.setIntensityBLUE(intensity_counter)
-
         # Create list for storing data samples
         samples = []
         
         # Iterate data capture for 20 light levels
-        for x in range(3):
+        for x in range(20):
 
             # Increase brightness by 5%
             print("\n\nIncreasing brightness by  5%...")
