@@ -3,7 +3,6 @@ import time
 import board
 import busio
 import adafruit_pca9685
-import adafruit_tca9548a
 from adafruit_as7341 import AS7341
 from cmath import e
 import numpy
@@ -63,16 +62,16 @@ class LEDPanel:
         LED.LED_GREEN = RGB_CHANNEL[1]
         LED.LED_BLUE = RGB_CHANNEL[2]
 
-        # Set RGB ratios in float values between values 0 to 1, 0 for max brightness
+        # Set RGB ratios in float values between values 0 to 1
         LED.MAX_RATIO_RED = RGB_RATIO[0]    
         LED.MAX_RATIO_GREEN = RGB_RATIO[1]  
         LED.MAX_RATIO_BLUE = RGB_RATIO[2]   
 
         # Lowest value to be used will be half of the total, it is the minimum value where sufficient minimal light is emitted
-        # Set initial value to half of the total
-        LED.DUTYCYCLE_RED = 65535
-        LED.DUTYCYCLE_GREEN = 65535
-        LED.DUTYCYCLE_BLUE = 65535
+        # Set to low
+        LED.DUTYCYCLE_RED = MINIMAL_LIGHT_VALUE
+        LED.DUTYCYCLE_GREEN = MINIMAL_LIGHT_VALUE
+        LED.DUTYCYCLE_BLUE = MINIMAL_LIGHT_VALUE
 
         LED.LED_RED.duty_cycle = int(LED.DUTYCYCLE_RED)
         LED.LED_GREEN.duty_cycle = int(LED.DUTYCYCLE_GREEN)
@@ -138,11 +137,12 @@ class LEDPanel:
             LED.MAX_RATIO_GREEN = newGREEN
             LED.MAX_RATIO_BLUE = newBLUE
 
+            # Calculate new duty cycle values and save them
             LED.DUTYCYCLE_RED = 0 if 1 - newRED == 0 else ((1 - newRED) * MINIMAL_LIGHT_VALUE) - 1
             LED.DUTYCYCLE_GREEN = 0 if 1 - newGREEN == 0 else ((1 - newGREEN) * MINIMAL_LIGHT_VALUE) - 1
             LED.DUTYCYCLE_BLUE = 0 if 1 - newBLUE == 0 else ((1 - newBLUE) * MINIMAL_LIGHT_VALUE) - 1            
 
-            # Set appropriate duty cycles for each, convert values to hex notation
+            # Set appropriate duty cycles for each color channel
             LED.LED_RED.duty_cycle = int(LED.DUTYCYCLE_RED)
             LED.LED_GREEN.duty_cycle = int(LED.DUTYCYCLE_GREEN)
             LED.LED_BLUE.duty_cycle = int(LED.DUTYCYCLE_BLUE)
@@ -307,7 +307,7 @@ class SpectralSensor:
 
     def get_spectraldata(self):
         # Gets spectral data from AS7341 sensor object and return the data in a list
-        SPD = [[self.SENSOR.channel_415nm, 
+        SPD = [self.SENSOR.channel_415nm, 
                self.SENSOR.channel_445nm,
                self.SENSOR.channel_480nm,
                self.SENSOR.channel_515nm,
@@ -315,7 +315,7 @@ class SpectralSensor:
                self.SENSOR.channel_590nm,
                self.SENSOR.channel_630nm,
                self.SENSOR.channel_680nm,
-               self.SENSOR.channel_nir]]
+               self.SENSOR.channel_nir]
 
         return SPD
 
@@ -419,7 +419,7 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
     print("|=========================================================|\n")
     print("               SPECTRAL DATA CAPTURE PROGRAM                 ")
     print("|=========================================================|\n\n")
-    print("                 Press enter to continue                     \n\n\n\n")
+    x = input("                 Press enter to continue                     \n\n\n\n")
 
     intensity_counter = 0.05
 
@@ -428,9 +428,9 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
         PANEL_TOP.setIntensity(intensity_counter)
 
         # Create list for storing data samples
-        samples = []
+        samples = [["CH1", "CH2", "CH3", "CH4", "CH5", "CH6", "CH7", "CH8", "NIR", "PPFD"]]
         
-        # Iterate data capture at 20 points
+        # Iterate data capture for 20 light levels
         for x in range(20):
             try:
                 spectraldata = SENSOR_ONE.get_spectraldata()
@@ -439,9 +439,8 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
                 print("Spectral data capture failed")
             PPFD = input("Enter equivalent PPFD: ")
         
-            for i in range(9):
-                samples[x][i] = spectraldata[i]
-                samples[x][9] = PPFD
+            spectraldata.append(PPFD)
+            samples.append(spectraldata)
 
             # Increase brightness by 5%
             print("\n\nIncreasing brightness by  5%...")
@@ -449,16 +448,11 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
             PANEL_TOP.setIntensity(intensity_counter)
 
         print("Spectral data capture program has finished...")
-        print("Displaying data values")
 
-        ## Write program for writing data values in excel
+        # Save data values in excel file
+        numpy.savetxt("spd.csv", samples, delimiter = ",")
     except Exception as e:
         print("Spectral data capture program encountered an error: " + str(e))
-
-def SPECTRAL_DATA_TO_EXCEL(sensor):
-    SPD = sensor.get_spectraldata()
-
-    numpy.savetxt("spd.csv", SPD, delimiter = ",")
 
 
 def main():
@@ -477,8 +471,7 @@ def main():
     # LIGHT_MONITORING_TEST(spectralsensor)
 
     # Uncomment to conduct spectral data acquisition tests
-    # SPECTRAL_DATA_CAPTURE(PANEL_TOP, spectralsensor)
-    SPECTRAL_DATA_TO_EXCEL(spectralsensor)
+    SPECTRAL_DATA_CAPTURE(PANEL_TOP, spectralsensor)
 
 if __name__=="__main__":
     main()
