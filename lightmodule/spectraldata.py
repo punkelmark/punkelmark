@@ -446,7 +446,7 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
         # Save data values in excel file
         numpy.savetxt("spd.csv", samples, delimiter = ",")
     except Exception as e:
-        print("Spectral data capture program encountered an error: " + str(e))
+        print("\nSpectral data capture program encountered an error: " + str(e))
 
 
 def main():
