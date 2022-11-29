@@ -334,6 +334,9 @@ def LIGHT_MONITORING_TEST(sensor, PANEL_TOP):
         sensor.disp_freq()
         print("================================================")
         x = input("Enter to capture data again...")
+        if (x=="OFF"):
+            PANEL_TOP.turnOFF()
+            break
 
 def LIGHT_CONTROL_TEST(LEDPANEL):
 
