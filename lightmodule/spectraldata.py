@@ -449,7 +449,7 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
             PANEL_TOP.setIntensityBLUE(intensity_counter)
             print(PANEL_TOP.getConfig())
             
-            print("Starting spectral data capture... ")
+            print("Starting spectral data capture... ", end=" ")
             try:
                 # Do 5 captures
                 for i in range(5):
