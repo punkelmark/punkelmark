@@ -322,10 +322,11 @@ class SpectralSensor:
 # ----------------------------------------------------------------------------- #
 
 def LIGHT_MONITORING_TEST(sensor):
-    print("================================================")
-    print("             AS7341 Spectral Data")
-    sensor.disp_freq()
-    print("================================================")
+    while True:
+        print("================================================")
+        print("             AS7341 Spectral Data")
+        sensor.disp_freq()
+        print("================================================")
 
 def LIGHT_CONTROL_TEST(LEDPANEL):
 
@@ -472,10 +473,10 @@ def main():
     # LIGHT_CONTROL_TEST_2(PANEL_TOP) # Second light control test
 
     # Uncomment to conduct light monitoring tests
-    # LIGHT_MONITORING_TEST(spectralsensor)
+    LIGHT_MONITORING_TEST(spectralsensor)
 
     # Uncomment to conduct spectral data acquisition tests
-    SPECTRAL_DATA_CAPTURE(PANEL_TOP, spectralsensor)
+    # SPECTRAL_DATA_CAPTURE(PANEL_TOP, spectralsensor)
 
 if __name__=="__main__":
     main()
