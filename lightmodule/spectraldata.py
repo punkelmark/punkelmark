@@ -436,6 +436,7 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
     try:
         # Create list for storing data samples
         samples = []
+        spectraldata = []
         
         # Iterate data capture for 20 light levels
         for x in range(20):
@@ -448,18 +449,26 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
             PANEL_TOP.setIntensityBLUE(intensity_counter)
             print(PANEL_TOP.getConfig())
             
+            print("Starting spectral data capture... ")
             try:
-                spectraldata = SENSOR_ONE.get_spectraldata()
+                # Do 5 captures
+                for i in range(5):
+                    spectraldata[i] = SENSOR_ONE.get_spectraldata()
+                    # Do a capture every 2 seconds
+                    print('.')
+                    time.sleep(2)
+
                 print("\nSpectral data captured at light intensity {0} ...".format(intensity_counter))
                 PPFD = input("Enter equivalent PPFD: ")
             except:
                 print("Spectral data capture failed")
                 break
         
-            # Print spectral data gathered
-            spectraldata.append(int(PPFD))
-            samples.append(spectraldata)
-            print("\nCurrent samples...")
+            # Append spectral data gathered and print to see dataset
+            for i in range(5):
+                spectraldata[i].append(int(PPFD))
+                samples.append(spectraldata[i])
+            print("\nCurrent samples, size of data set: ", len(samples))
             print(samples)
 
         print("Spectral data capture program has finished...")
@@ -483,10 +492,10 @@ def main():
     # LIGHT_CONTROL_TEST_2(PANEL_TOP) # Second light control test
 
     # Uncomment to conduct light monitoring tests
-    LIGHT_MONITORING_TEST(spectralsensor, PANEL_TOP)
+    # LIGHT_MONITORING_TEST(spectralsensor, PANEL_TOP)
 
     # Uncomment to conduct spectral data acquisition tests
-    # SPECTRAL_DATA_CAPTURE(PANEL_TOP, spectralsensor)
+    SPECTRAL_DATA_CAPTURE(PANEL_TOP, spectralsensor)
 
 if __name__=="__main__":
     main()
