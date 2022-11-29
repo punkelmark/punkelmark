@@ -460,8 +460,8 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
 
                 print("\nSpectral data captured at light intensity {0} ...".format(intensity_counter))
                 PPFD = input("Enter equivalent PPFD: ")
-            except:
-                print("Spectral data capture failed")
+            except Exception as e:
+                print("Spectral data capture failed. ", str(e))
                 break
         
             # Append spectral data gathered and print to see dataset
