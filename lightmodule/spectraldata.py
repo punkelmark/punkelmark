@@ -423,15 +423,16 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
         for x in range(20):
 
             # Increase brightness by 5%
-            print("\n\nIncreasing brightness by  5%...")
+            print("\n\nIncreasing brightness by  5%... \n")
             intensity_counter += 0.05
             PANEL_TOP.setIntensityRED(intensity_counter)
             PANEL_TOP.setIntensityGREEN(intensity_counter)
             PANEL_TOP.setIntensityBLUE(intensity_counter)
-
+            print(PANEL_TOP.getConfig())
+            
             try:
                 spectraldata = SENSOR_ONE.get_spectraldata()
-                print("Spectral data captured at light intensity {0} ...".format(intensity_counter))
+                print("\nSpectral data captured at light intensity {0} ...".format(intensity_counter))
             except:
                 print("Spectral data capture failed")
             PPFD = input("Enter equivalent PPFD: ")
