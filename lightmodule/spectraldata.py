@@ -227,7 +227,7 @@ class LEDPanel:
 
             # Check if new RGB targets are less or greater than the desired value to apply appropriate dimming control
             # Update blue           
-            if BLUE_TARGET > LED.DUTYCYCLE_RED:
+            if BLUE_TARGET > LED.DUTYCYCLE_BLUE:
                 # Decrease brightness
                 try:
                     print("Decreasing brightness...", end = " ")
@@ -449,7 +449,7 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
             PANEL_TOP.setIntensityBLUE(intensity_counter)
             print(PANEL_TOP.getConfig())
             
-            print("Starting spectral data capture... ", end="")
+            print("Starting spectral data capture... ", end=" ")
             try:
                 # Do 5 captures
                 for i in range(5):
