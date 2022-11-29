@@ -435,7 +435,6 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
             PANEL_TOP.setIntensityRED(intensity_counter)
             PANEL_TOP.setIntensityGREEN(intensity_counter)
             PANEL_TOP.setIntensityBLUE(intensity_counter)
-            print("...Current configuration...\n")
             print(PANEL_TOP.getConfig())
             
             try:
@@ -449,7 +448,7 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
             # Print spectral data gathered
             spectraldata.append(int(PPFD))
             samples.append(spectraldata)
-            print("Current samples... \n")
+            print("\nCurrent samples...")
             print(samples)
 
         print("Spectral data capture program has finished...")
