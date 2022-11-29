@@ -323,9 +323,10 @@ class SpectralSensor:
 
 def LIGHT_MONITORING_TEST(sensor, PANEL_TOP):
     PANEL_TOP.turnON()
+    PANEL_TOP.getConfig()
     PANEL_TOP.setIntensityRED(1)
-    PANEL_TOP.setIntensityRED(1)
-    PANEL_TOP.setIntensityRED(1)
+    PANEL_TOP.setIntensityGREEN(1)
+    PANEL_TOP.setIntensityBLUE(1)
     PANEL_TOP.getConfig()
     while True:
         print("================================================")
