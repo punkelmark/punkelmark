@@ -165,9 +165,11 @@ class LEDPanel:
                     for i in range(int(LED.DUTYCYCLE_RED), int(RED_TARGET)):
                         LED.LED_RED.duty_cycle = i
                     print("...task done.")
-                    LED.LED_RED.duty_cycle = int(RED_TARGET)                      
+                    LED.LED_RED.duty_cycle = int(RED_TARGET)               
+                    LED.DUTYCYCLE_RED = int(RED_TARGET)       
                 except Exception as e:
                     print("Error occured: " + str(e))
+
             else:
                 # Increase brightness
                 try:
@@ -176,6 +178,7 @@ class LEDPanel:
                         LED.LED_RED.duty_cycle = i
                     print("...task done.")
                     LED.LED_RED.duty_cycle = int(RED_TARGET)
+                    LED.DUTYCYCLE_RED = int(RED_TARGET)   
                 except Exception as e:
                     print("Error occured: " + str(e))
 
@@ -197,7 +200,8 @@ class LEDPanel:
                     for i in range(int(LED.DUTYCYCLE_GREEN), int(GREEN_TARGET)):
                         LED.LED_GREEN.duty_cycle = i
                     print("... task done.")
-                    LED.LED_GREEN.duty_cycle = int(GREEN_TARGET)                
+                    LED.LED_GREEN.duty_cycle = int(GREEN_TARGET)    
+                    LED.DUTYCYCLE_GREEN = int(GREEN_TARGET)
                 except Exception as e:
                     print("Error occured: " + str(e))
             else:
@@ -208,6 +212,7 @@ class LEDPanel:
                         LED.LED_GREEN.duty_cycle = i
                     print("...task done.")
                     LED.LED_GREEN.duty_cycle = int(GREEN_TARGET)
+                    LED.DUTYCYCLE_GREEN = int(GREEN_TARGET)   
                 except Exception as e:
                     print("Error occured: " + str(e))
 
@@ -229,7 +234,8 @@ class LEDPanel:
                     for i in range(int(LED.DUTYCYCLE_BLUE), int(BLUE_TARGET)):
                         LED.LED_BLUE.duty_cycle = i
                     print("... task done.")
-                    LED.LED_BLUE.duty_cycle = int(BLUE_TARGET)                
+                    LED.LED_BLUE.duty_cycle = int(BLUE_TARGET)     
+                    LED.DUTYCYCLE_BLUE = int(BLUE_TARGET)              
                 except Exception as e:
                     print("Error occured: " + str(e))
             else:
@@ -239,7 +245,8 @@ class LEDPanel:
                     for i in range(int(LED.DUTYCYCLE_BLUE), int(BLUE_TARGET), -1):
                         LED.LED_BLUE.duty_cycle = i
                     print("...task done.")
-                    LED.LED_BLUE.duty_cycle = int(BLUE_TARGET)                
+                    LED.LED_BLUE.duty_cycle = int(BLUE_TARGET)     
+                    LED.DUTYCYCLE_BLUE = int(BLUE_TARGET)           
                 except Exception as e:
                     print("Error occured: " + str(e))
                              
