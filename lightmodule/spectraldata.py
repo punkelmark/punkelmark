@@ -453,10 +453,10 @@ def SPECTRAL_DATA_CAPTURE(PANEL_TOP, SENSOR_ONE):
             try:
                 # Do 5 captures
                 for i in range(5):
-                    spectraldata[i] = SENSOR_ONE.get_spectraldata()
                     # Do a capture every 2 seconds
-                    print('.', end=" ")
-                    time.sleep(2)
+                    print('.', end=" ")                    
+                    spectraldata[i] = SENSOR_ONE.get_spectraldata()
+                    time.sleep(2)                    
 
                 print("\nSpectral data captured at light intensity {0} ...".format(intensity_counter))
                 PPFD = input("Enter equivalent PPFD: ")
