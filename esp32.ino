@@ -8,7 +8,7 @@ const char* ssid = “PLDTHOMEFBIR6c3e0”;
 const char* wifi_password = “#Senoj2000”;
 
 // MQTT
-const char* mqtt_server = “192.168.1.5”; 
+const char* mqtt_server = “192.168.*.*”; 
 const char* data_topic = “data”;
 const char* mqtt_username = “hydropo”; // MQTT username
 const char* mqtt_password = “hydropo”; // MQTT password
