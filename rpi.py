@@ -1,15 +1,13 @@
 import paho.mqtt.client as mqtt
 
 MQTT_ADDRESS = ‘192.168.*.*’
-MQTT_USER = ‘neo’
-MQTT_PASSWORD = ‘eglabs’
-MQTT_TOPIC_TEMP = ‘Temperature’
-MQTT_TOPIC_HUMD = ‘Humidity’
+MQTT_USER = ‘hydropo’
+MQTT_PASSWORD = ‘hydropo’
+MQTT_TOPIC_DATA = ‘data’
 
 def on_connect(client, userdata, flags, rc):
     print(‘Connected with result code ‘ + str(rc))
-    client.subscribe(MQTT_TOPIC_TEMP)
-    client.subscribe(MQTT_TOPIC_HUMD)
+    client.subscribe(MQTT_TOPIC_DATA)
 
 def on_message(client, userdata, msg):
     print(msg.topic + ‘ ‘ + str(msg.payload))
