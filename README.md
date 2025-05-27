@@ -1,5 +1,5 @@
 - 👋 Hi, I’m @punkelmark
-- 👀 I’m interested in programming
+- 👀 I’m interested in programming, cybersecurity, computer networking
 - 📫 How to reach me: elmarkcorpus@gmail.com
 
 <!---
